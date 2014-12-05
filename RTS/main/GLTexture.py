@@ -5,23 +5,23 @@ from OpenGL.GLU import *
 class Texture(object):
  
     def __init__(self, src):
-        """src - sciezka/nazwa_obrazka.png"""
+        """src -from where shuld be image loaded"""
         image = pygame.image.load(src)
  
         self.rect = image.get_rect()
         texdata = pygame.image.tostring(image,"RGBA",0)
         print(self.rect)
-        # tworzymy obiekt tekstury
+        # Create texture object
         self.texid = glGenTextures(1)
  
-        # aktywujemy obiekt tekstury
+        # Activate Texture Object
         glBindTexture(GL_TEXTURE_2D, self.texid)
  
-        # ustawiamy filtry tekstury
+        # Use texture filters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
  
-        # tworzymy obraz tekstury
+        # Create Image of Texture
         glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,self.rect.w,self.rect.h,0,GL_RGBA,GL_UNSIGNED_BYTE,texdata)
  
         self.newList = glGenLists(1)
