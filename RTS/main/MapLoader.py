@@ -61,7 +61,6 @@ class Map(object):
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.matrix = [[0 for y in range(sizeY)] for x in range(sizeX)]
-        
     
     def writeMap(self):
         f = open("res/maps/" + self.src, "wb")

@@ -19,9 +19,9 @@ class ScreenManager(object):
     '''
 
 
-    def __init__(self, main, weight, height, tileSizeH, tileSizeW, maxFPS):
+    def __init__(self, main, width, height, tileSizeH, tileSizeW, maxFPS):
         self.main = main
-        self.size = self.weight, self.height = weight, height
+        self.size = self.width, self.height = width, height
         self.tileSizeH = tileSizeH
         self.tileSizeW = tileSizeW
         self.flags = OPENGL | DOUBLEBUF
@@ -43,7 +43,7 @@ class ScreenManager(object):
         self.tiles = [Texture("../res/map/grass.png")]
     
     def _IsoMathHelperInit(self):
-        self.IsoMathHelper = IsoMathHelper(self.tileSizeW/2, self.tileSizeH/2, self.weight/2)
+        self.IsoMathHelper = IsoMathHelper(self.tileSizeW/2, self.tileSizeH/2, self.width/2)
     
     def _PygameInit(self):
         pygame.init()
@@ -56,7 +56,7 @@ class ScreenManager(object):
  
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glOrtho(0,self.weight ,self.height ,0,0,1)
+        glOrtho(0,self.width ,self.height ,0,0,1)
         glMatrixMode(GL_MODELVIEW)
  
         #set textures
@@ -92,7 +92,7 @@ class ScreenManager(object):
           for y in range(20):
             #tile = self.GroundMap[y][x] - 1
             tile = 0
-            tile_x = (x-y)*(self.tileSizeW/2)+self.MapPosX+self.weight/2
+            tile_x = (x-y)*(self.tileSizeW/2)+self.MapPosX+self.width/2
             tile_y = (x+y)*(self.tileSizeH/2)+self.MapPosY
             self.tiles[tile].draw(tile_x,tile_y)
 
