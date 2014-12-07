@@ -63,7 +63,7 @@ class Map(object):
         self.matrix = [[0 for y in range(sizeY)] for x in range(sizeX)]
     
     def writeMap(self):
-        f = open("res/maps/" + self.src, "wb")
+        f = open("../res/maps/" + self.src + ".map", "wb")
         
         f.write(bytes([1])) # start of heading
         for i in self.Header:
@@ -107,7 +107,7 @@ class Map(object):
         
         #The Matrix
         f.write(bytes([1])) # start of heading
-        for x in self.metrix:
+        for x in self.matrix:
             f.write(bytes([2]))
             for y in x:
                 f.write(bytes([y]))
@@ -118,7 +118,7 @@ class Map(object):
     
     
     def loadMap(self):
-        f = open("res/maps/" + self.src, "rb")
+        f = open("..res/maps/" + self.src + ".map", "rb")
         header = [1]
         for i in "ISO_Game_1.0":
             header.append(ord(i))
