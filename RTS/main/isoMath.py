@@ -42,6 +42,8 @@ class IsoMathHelper(object):
     """
     def Screen2Map(self, tupple):
         screen_x, screen_y = self.tuppleHelper(tupple)
+        #screen_x += self.TILE_WIDTH_HALF
+        screen_x -= self.SCREEN_WIDTH_HALF
         map_x = (screen_x / self.TILE_WIDTH_HALF + screen_y / self.TILE_HEIGHT_HALF) /2;
         map_y = (screen_y / self.TILE_HEIGHT_HALF - (screen_x / self.TILE_WIDTH_HALF)) /2;
         return (map_x, map_y)
