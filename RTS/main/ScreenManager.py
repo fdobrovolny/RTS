@@ -102,7 +102,7 @@ class ScreenManager(object):
         
         if  -1 < mouseCoord[0] <= self.MapSize[0] and -1 < mouseCoord[1] <= self.MapSize[1] and self.MouseActive:
             select_x, select_y = self.IsoMathHelper.Map2ScreenFIN((int(mouseCoord[0]), int(mouseCoord[1])), (self.MapPosX, self.MapPosY))
-            self.MouseSelected.draw(select_x, select_y)
+            self.MouseSelectedTexture.draw(select_x, select_y)
 
 
     def moveMap(self, dir1, dir2):
