@@ -29,9 +29,15 @@ class InGameScreenManager(object):
         self.IsoMathHelper = None
         self._IsoMathHelperInit()
         
-        self.MapPosX, self.MapPosY =  0.0, 0.0
+        self.MapPos = self.MapPosX, self.MapPosY =  0.0, 0.0
         self.MapMovConst = 10  
         self.RegisterMapMovement()
+        
+        self.RecalculateDisplayTiles = True # determine if we have to recalculate which tiles should be shown
+        self.RDT_X_S = None
+        self.RDT_X_E = None
+        self.RDT_Y_S = None
+        self.RDT_Y_E = None
         
         self.Map = Map(map)
         self.Map.loadMap()
@@ -45,17 +51,20 @@ class InGameScreenManager(object):
     def _IsoMathHelperInit(self):
         self.IsoMathHelper = IsoMathHelper(self.tileSizeW/2, self.tileSizeH/2, self.screenManager.width/2)
     
+    
     def Draw(self):
-        for x in range(self.Map.sizeX):
-            for y in range(self.Map.sizeY):
+        if self.RecalculateDisplayTiles:
+            self.RDT()
+        for x in range(self.RDT_X_S, self.RDT_X_E):
+            for y in range(self.RDT_Y_S, self.RDT_Y_E):
                 tile = self.Map.matrix[y][x]
-                tile_x, tile_y = self.IsoMathHelper.Map2ScreenFIN((x,y), (self.MapPosX, self.MapPosY))
+                tile_x, tile_y = self.IsoMathHelper.Map2ScreenFIN((x,y), self.MapPos)
                 self.tiles[tile].draw(tile_x, tile_y)
         
-        mouseCoord = self.IsoMathHelper.Screen2MapFIN(pygame.mouse.get_pos(), (self.MapPosX, self.MapPosY))
+        mouseCoord = self.IsoMathHelper.Screen2MapFIN(pygame.mouse.get_pos(), self.MapPos)
         
         if  -1 < mouseCoord[0] <= self.Map.sizeX and -1 < mouseCoord[1] <= self.Map.sizeY and self.MouseActive:
-            select_x, select_y = self.IsoMathHelper.Map2ScreenFIN((int(mouseCoord[0]), int(mouseCoord[1])), (self.MapPosX, self.MapPosY))
+            select_x, select_y = self.IsoMathHelper.Map2ScreenFIN((int(mouseCoord[0]), int(mouseCoord[1])), self.MapPos)
             self.MouseSelectedTexture.draw(select_x, select_y)
     
     
@@ -69,21 +78,29 @@ class InGameScreenManager(object):
         elif not dir2:
             self.MapPosX -= self.MapMovConst
     
+    
     def moveMapUp(self):
         self.MapPosY += self.MapMovConst
         self.MapPos = self.MapPosX, self.MapPosY
+        self.RecalculateDisplayTiles = True
+    
     
     def moveMapDown(self):
         self.MapPosY -= self.MapMovConst
         self.MapPos = self.MapPosX, self.MapPosY
+        self.RecalculateDisplayTiles = True
+    
     
     def moveMapRight(self):
         self.MapPosX -= self.MapMovConst
         self.MapPos = self.MapPosX, self.MapPosY
+        self.RecalculateDisplayTiles = True
+    
     
     def moveMapLeft(self):
         self.MapPosX += self.MapMovConst
         self.MapPos = self.MapPosX, self.MapPosY
+    
     
     def RegisterMapMovement(self):
         self.main.EventHandler.registerKEYPRESSEDevent(K_UP, self.moveMapUp)
@@ -91,8 +108,44 @@ class InGameScreenManager(object):
         self.main.EventHandler.registerKEYPRESSEDevent(K_LEFT, self.moveMapLeft)
         self.main.EventHandler.registerKEYPRESSEDevent(K_RIGHT, self.moveMapRight)
     
+    
     def loadTextures(self):
         print(self.Map.sizeX, self.Map.sizeX)
         for TextureSrc in self.Map.textures:
             self.tiles.append(Texture("../res/map/" + TextureSrc + ".png"))
     
+    
+    def RDT(self):
+        TopLeft = self.IsoMathHelper.Screen2MapFIN((0,0), self.MapPos)
+        TopRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.width,0), self.MapPos)
+        BottomRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.height, self.screenManager.width), self.MapPos)
+        BottomLeft = self.IsoMathHelper.Screen2MapFIN((0, self.screenManager.height), self.MapPos)
+        
+        self.RDT_X_S = int(TopLeft[0]) - 2
+        self.RDT_X_E = int(BottomRight[0]) + 2
+        
+        self.RDT_Y_S = int(TopRight[1]) - 2
+        self.RDT_Y_E = int(BottomLeft[1]) + 2
+        
+        if self.RDT_X_S < 0:
+            self.RDT_X_S = 0
+        elif self.RDT_X_S > self.Map.sizeX:
+            self.RDT_X_S = self.Map.sizeX
+        
+        if self.RDT_X_E < 0:
+            self.RDT_X_E = 0
+        elif self.RDT_X_E > self.Map.sizeX:
+            self.RDT_X_E = self.Map.sizeX
+        
+        if self.RDT_Y_S < 0:
+            self.RDT_Y_S = 0
+        elif self.RDT_Y_S > self.Map.sizeY:
+            self.RDT_Y_S = self.Map.sizeY
+        
+        if self.RDT_Y_E < 0:
+            self.RDT_Y_E = 0
+        elif self.RDT_Y_E > self.Map.sizeY:
+            self.RDT_Y_E = self.Map.sizeY
+        
+        self.RecalculateDisplayTiles = False
+        
