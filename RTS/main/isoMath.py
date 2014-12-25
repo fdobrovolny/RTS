@@ -25,7 +25,7 @@ class IsoMathHelper(object):
     """ 
     @author: Filip Dobrovony
     @param tupple: Map XY coord
-    @return: XY coord of top right corner of tile  
+    @return: XY coord of title with top corner of map as 0,0
     """
     def Map2Iso(self, tupple):
         x, y = self.tuppleHelper(tupple)
@@ -63,11 +63,9 @@ class IsoMathHelper(object):
     @author: Filip Dobrovolny
     @param tupple: Screen XY coord
     @param pos: position of map (position of the map e.g. when we move the map with arrows)
-    @param SCREENHEIGHT: the height of screen
-    @param SCREENWIDTH: the width of screen
     @return: correct Screen XY coord 
     """
-    def MapMovePos(self, tupple, pos, SCREENHEIGHT, SCREENWIDTH):
+    def MapMovePos(self, tupple, pos):
         screen_x, screen_y = self.tuppleHelper(tupple)
         pos_x, pos_y = self.tuppleHelper(pos)
         screen_x += pos_x
@@ -79,15 +77,15 @@ class IsoMathHelper(object):
     @author: Filip Dobrovolny
     @param tupple: Map XY coord
     @param pos: position of map (position of the map e.g. when we move the map with arrows)
-    @param SCREENHEIGHT: the height of screen
-    @param SCREENWIDTH: the width of screen
     @return: correct Screen XY coord 
     """
-    def Map2ScreenFIN(self, tupple, pos, SCREENHEIGHT, SCREENWIDTH):
+    def Map2ScreenFIN(self, tupple, pos):
         tupple = self.Map2Screen(tupple)
-        return self.MapMovePos(tupple, pos, SCREENHEIGHT, SCREENWIDTH)
+        return self.MapMovePos(tupple, pos)
     
     
+    def Screen2MapFIN(self, tupple, pos):
+        pass
     """ 
     @author: Filip Dobrovolny
     @param tupple: tupple of coord e.g. (5, 10)
