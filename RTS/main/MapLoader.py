@@ -9,6 +9,7 @@ class Map(object):
     @author: Filip Dobrovolny
     @param src: Location of .map file
     @note: Load/Save/Edit Map
+    @todo: move map size info before textures
     bin map file definition
         <> - string
         [] - int
@@ -161,4 +162,36 @@ class Map(object):
         if not f.read(2) == bytes([30,25]):
             return False, "can't find end of file"
         
+        f.close()
+    
+    
+    def loadMapInfo(self):
+        f = open("..res/maps/" + self.src + ".map", "rb")
+        header = [1]
+        for i in "ISO_Game_1.0":
+            header.append(ord(i))
+        header.append(3)
+        if not f.read(14) == bytes(header):
+            return False, "Header"
+        self.name = self._readTextTillByte(f, 3)
+        self.author = self._readTextTillByte(f, 3)
+        self.desc = self._readTextTillByte(f, 3)
+        if not f.read(1) == bytes([30]):
+            return False, "End of Header"
+        
+        self.textures = []
+        temp = f.read(1)
+        if temp == bytes([30]):
+            return False, "No textures!"
+        elif temp == bytes([2]):
+            temp = self.read_text_till(f, 30) # skip map textures
+        else:
+            return False, "No end header"
+        
+        self.sizeX = int(bin(ord(f.read(1)))[2:] + bin(ord(f.read(1)))[2:], 2)
+        if not f.read(1) == bytes([3]):
+            return False, "No size seperator"
+        self.sizeY = int(bin(ord(f.read(1)))[2:] + bin(ord(f.read(1)))[2:], 2)
+        if not f.read(3) == bytes([3, 30, 1]):
+            return False, "No size end"
         f.close()
