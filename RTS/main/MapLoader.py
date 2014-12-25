@@ -102,7 +102,7 @@ class Map(object):
         size_y_bin = '{0:016b}'.format(self.sizeY)
         f.write(bytes([int(size_y_bin[:8], 2)]))
         f.write(bytes([int(size_y_bin[8:], 2)]))
-        f.write(bytes([3])) # end of text¨
+        f.write(bytes([3])) # end of text
         
         f.write(bytes([30])) # end of text
         
@@ -119,7 +119,7 @@ class Map(object):
     
     
     def loadMap(self):
-        f = open("..res/maps/" + self.src + ".map", "rb")
+        f = open("../res/maps/" + self.src + ".map", "rb")
         header = [1]
         for i in "ISO_Game_1.0":
             header.append(ord(i))
@@ -138,7 +138,7 @@ class Map(object):
             return False, "No textures!"
         elif temp == bytes([2]):
             while temp != bytes([30]):
-                self.textures.append(self.read_text_till(f, 3))
+                self.textures.append(self._readTextTillByte(f, 3))
                 temp = f.read(1)
         else:
             return False, "No end header"
@@ -184,7 +184,7 @@ class Map(object):
         if temp == bytes([30]):
             return False, "No textures!"
         elif temp == bytes([2]):
-            temp = self.read_text_till(f, 30) # skip map textures
+            temp = self._readTextTillByte(f, 30) # skip map textures
         else:
             return False, "No end header"
         
