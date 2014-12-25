@@ -75,6 +75,21 @@ class IsoMathHelper(object):
     
     """
     @author: Filip Dobrovolny
+    @param tupple: Screen XY coord
+    @param pos: position of map (position of the map e.g. when we move the map with arrows)
+    @note: reverse of MapMovePos() 
+    @return: uncorrect Screen XY coord 
+    """
+    def MapUnmovePos(self, tupple, pos):
+        screen_x, screen_y = self.tuppleHelper(tupple)
+        pos_x, pos_y = self.tuppleHelper(pos)
+        screen_x -= pos_x
+        screen_y -= pos_y
+        return (screen_x, screen_y)
+    
+    
+    """
+    @author: Filip Dobrovolny
     @param tupple: Map XY coord
     @param pos: position of map (position of the map e.g. when we move the map with arrows)
     @return: correct Screen XY coord 
@@ -84,8 +99,17 @@ class IsoMathHelper(object):
         return self.MapMovePos(tupple, pos)
     
     
+    """
+    @author: Filip Dobrovolny
+    @param tupple: Screen XY coord
+    @param pos: position of map (position of the map e.g. when we move the map with arrows)
+    @return: correct Map XY coord 
+    """
     def Screen2MapFIN(self, tupple, pos):
-        pass
+        tupple = self.MapUnmovePos(tupple, pos)
+        return self.Screen2Map(tupple)
+    
+    
     """ 
     @author: Filip Dobrovolny
     @param tupple: tupple of coord e.g. (5, 10)
