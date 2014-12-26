@@ -117,7 +117,6 @@ class InGameScreenManager(object):
     
     
     def checkEdges(self):
-        print(self.MapPos)
         if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
             self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
         elif self.MapPosY > self.screenManager.width/4:
