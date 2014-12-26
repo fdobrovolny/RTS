@@ -21,35 +21,179 @@ class EventHandler(object):
         self.userEventsNum = 0
         #SONG_END = pygame.USEREVENT + 1
         self.KEYDOWN_event = {}
+        self.KEYUP_event = {}
         self.KEYPRESSED_event = {}
+        self.MOUSEBUTTONDOWN_event = {}
+        self.MOUSEBUTTONUP_event = {}
     
     def tick(self):
         for event in pygame.event.get():
+            
             if event.type == QUIT:
+                self.main.quit()
                 pygame.quit()
                 sys.exit()
+            
             for i in self.userEvents:
                 if event.type == i:
                     self.userEvents[i](event)
-            if event.type == KEYDOWN:
-                for i in self.KEYDOWN_event:
-                    if event.key == i:
-                        self.KEYDOWN_event[i]()
+            
+            self.checkForEvent(event.type, KEYDOWN, self.KEYDOWN_event, event.key) 
+            self.checkForEvent(event.type, KEYUP, self.KEYUP_event, event.key)   
+            self.checkForEvent(event.type, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, event.button)
+            self.checkForEvent(event.type, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, event.button) 
         
         keys_presed = pygame.key.get_pressed()
         
         for i in self.KEYPRESSED_event:
             if keys_presed[i]:
-                self.KEYPRESSED_event[i]()
+                for func in self.KEYPRESSED_event[i]:
+                    func()
     
+    
+    ''' 
+    @author: Filip Dobrovolny
+    @param event:  event.type
+    @param checkEvent: for which event are we looking? (MOUSEBUTTONUP, KEYUP, ...)
+    @param functions: dictationary in format {key : [func1, func2 ...]} 
+    @param key: event.key or event.button (index in functions)
+    '''
+    def checkForEvent(self, event, checkEvent, functions, key):
+        if event.type == checkEvent:
+            try:
+                functionsFIN = functions[key]
+                for i in functionsFIN:
+                        i()
+            except:
+                pass
+    
+        
     def registerUserEvent(self, function):
         self.userEventsNum += 1
         event = pygame.USEREVENT + self.userEventsNum
         self.userEvents[event] = function
         return event
     
+    
+    def unregisterUserEvent(self, event):
+        del(self.userEvents[event])
+    
+    
+    def unregisterUserEventsAll(self):
+        self.userEvents = {}
+    
+    
     def registerKEYDOWNevent(self, key, function):
-        self.KEYDOWN_event[key] = function
+        try:
+            temp = self.KEYDOWN_event[key]
+            temp.apppend(function)
+            self.KEYDOWN_event[key] = temp
+        except:
+            self.KEYDOWN_event[key] = [function]
+    
+    
+    def unregisterKEYDOWNeventAll(self, key):
+        del(self.KEYDOWN_event[key])
+     
+    
+    def unregisterKEYDOWNevent(self, key, function):
+        try:
+            self.KEYDOWN_event[key].remove(function)
+        except:
+            pass
+    
+    
+    def unregisterKEYDOWNeventAllKeys(self):
+        self.KEYDOWN_event = {}
+    
+    
+    def registerKEYUPevent(self, key, function):
+        try:
+            temp = self.KEYUP_event[key]
+            temp.apppend(function)
+            self.KEYUP_event[key] = temp
+        except:
+            self.KEYUP_event[key] = [function]
+    
+    
+    def unregisterKEYUPeventAll(self, key):
+        del(self.KEYUP_event[key])
+    
+    
+    def unregisterKEYUPevent(self, key,function):
+        try:
+            self.KEYUP_event[key].remove(function)
+        except:
+            pass
+    
+    
+    def unregisterKEYUPeventAllKeys(self):
+        self.KEYUP_event = {}
+    
     
     def registerKEYPRESSEDevent(self, key, function):
-        self.KEYPRESSED_event[key] = function
+        try:
+            temp = self.KEYPRESSED_event[key]
+            temp.apppend(function)
+            self.KEYPRESSED_event[key] = temp
+        except:
+            self.KEYPRESSED_event[key] = [function]
+    
+    
+    def unregisterKEYPRESSEDeventAll(self, key):
+        del(self.KEYPRESSED_event[key])
+    
+    
+    def unregisterKEYPRESSEDevent(self, key, function):
+        try:
+            self.KEYPRESSED_event[key].remove(function)
+        except:
+            pass
+    
+    
+    def unregisterKEYPRESSEDeventAllKeys(self):
+        self.KEYPRESSED_event = {}
+    
+    
+    def registerMOUSEBUTTONDOWNevent(self, button, function):
+        try:
+            temp = self.MOUSEBUTTONDOWN_event[button]
+            temp.apppend(function)
+            self.MOUSEBUTTONDOWN_event[button] = temp
+        except:
+            self.MOUSEBUTTONDOWN_event[button] = [function]
+    
+    
+    def unregisterMOUSEBUTTONDOWNeventAll(self, button):
+        del(self.MOUSEBUTTONDOWN_event[button])
+    
+    
+    def unregisterMOUSEBUTTONDOWNevent(self, button, function):
+        try:
+            self.MOUSEBUTTONDOWN_event[button].remove(function)
+        except:
+            pass
+    
+    
+    def unregisterMOUSEBUTTONDOWNeventAllKEys(self):
+        self.MOUSEBUTTONDOWN_event = {}
+    
+    
+    def registerMOUSEBUTTONUPevent(self, button, function):
+        self.MOUSEBUTTOUP_event[button] = function
+    
+       
+    def unregisterMOUSEBUTTONUPeventAll(self, button):
+        del(self.MOUSEBUTTONUP_event[button])
+    
+    
+    def unregisterMOUSEBUTTONUPevent(self, button, function):
+        try:
+            self.MOUSEBUTTONUP_event[button].remove(function)
+        except:
+            pass
+    
+    
+    def unregisterMOUSEBUTTONUPeventAllKEys(self):
+        self.MOUSEBUTTONUP_event = {}
+    
