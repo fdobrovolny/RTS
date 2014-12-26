@@ -22,7 +22,7 @@ class ScreenManager(object):
         self.flags = OPENGL | DOUBLEBUF
         self.maxFPS = maxFPS
         
-        self._display_surf = None
+        self.display_surf = None
         self._PygameInit()
         self._OpenGLInit()
         self.FPSClock = pygame.time.Clock()
@@ -31,7 +31,7 @@ class ScreenManager(object):
     
     def _PygameInit(self):
         pygame.init()
-        self._display_surf = pygame.display.set_mode(self.size, self.flags)
+        self.display_surf = pygame.display.set_mode(self.size, self.flags)
         pygame.display.set_caption('Bellum ' + self.main.gameDevelopmentState + " " + self.main.version)
     
     def _OpenGLInit(self):
