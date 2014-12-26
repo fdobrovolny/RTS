@@ -17,19 +17,19 @@ class InGameScreenManager(object):
     '''
 
 
-    def __init__(self, main, tileSizeH, tileSizeW, map="base"):
+    def __init__(self, main, tileSizeX, tileSizeY, map="base"):
         '''
         Constructor
         '''
         self.main = main
         self.screenManager = self.main.ScreenManager
-        self.tileSizeH = tileSizeH
-        self.tileSizeW = tileSizeW
+        self.tileSizeX = tileSizeX #H
+        self.tileSizeY = tileSizeY #W
         
         self.IsoMathHelper = None
         self._IsoMathHelperInit()
         
-        self.MapPos = self.MapPosX, self.MapPosY =  0.0, 0.0
+        self.MapPos = self.MapPosX, self.MapPosY =  0, 0
         self.MapMovConst = 10  
         self.RegisterMapMovement()
         
@@ -49,7 +49,7 @@ class InGameScreenManager(object):
         
     
     def _IsoMathHelperInit(self):
-        self.IsoMathHelper = IsoMathHelper(self.tileSizeW/2, self.tileSizeH/2, self.screenManager.width/2)
+        self.IsoMathHelper = IsoMathHelper(self.tileSizeY/2, self.tileSizeX/2, self.screenManager.width/2)
     
     
     def Draw(self):
@@ -100,6 +100,7 @@ class InGameScreenManager(object):
     def moveMapLeft(self):
         self.MapPosX += self.MapMovConst
         self.MapPos = self.MapPosX, self.MapPosY
+        self.RecalculateDisplayTiles = True
     
     
     def RegisterMapMovement(self):
@@ -115,7 +116,26 @@ class InGameScreenManager(object):
             self.tiles.append(Texture("../res/map/" + TextureSrc + ".png"))
     
     
+    def checkEdges(self):
+        print(self.MapPos)
+        if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
+            self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
+            print("EDGES!")
+        elif self.MapPosY > self.screenManager.width/4:
+            self.MapPosY = int(self.screenManager.width/4)
+            print("EDGES!")
+        
+        if self.MapPosX > self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]:
+            self.MapPosX = self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]
+            print("EDGES!")
+        elif self.MapPosX < -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]:
+            self.MapPosX = -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]
+            print("EDGES!")
+        
+        
+    
     def RDT(self):
+        self.checkEdges()
         TopLeft = self.IsoMathHelper.Screen2MapFIN((0,0), self.MapPos)
         TopRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.width,0), self.MapPos)
         BottomRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.height, self.screenManager.width), self.MapPos)
