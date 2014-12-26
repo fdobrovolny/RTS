@@ -5,6 +5,7 @@ Created on 30. 11. 2014
 
 @author: fdobrovolny
 '''
+from _csv import Error
 
 class EventHandler(object):
     '''
@@ -61,7 +62,10 @@ class EventHandler(object):
     def checkForEvent(self, event, checkEvent, functions, key):
         if event.type == checkEvent:
             try:
-                functionsFIN = [functions[event.button], functions[event.key]][key]
+                if key:
+                    functionsFIN = functions[event.key]
+                else:
+                    functionsFIN = functions[event.button]
                 for i in functionsFIN:
                         i()
             except:
