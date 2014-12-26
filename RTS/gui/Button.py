@@ -95,3 +95,7 @@ class Button(object):
 
     def _registerClick(self):
         self.main.EventHandler.registerMOUSEBUTTONDOWNevent(1, self._onClick)
+
+    
+    def __del__(self):
+        self.main.EventHandler.unregisterMOUSEBUTTONDOWNevent(1, self._onClick)
