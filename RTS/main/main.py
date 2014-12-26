@@ -26,6 +26,11 @@ class main(object):
             self.EventHandler.tick()
             self.InGameScreenManager.Draw()
             self.ScreenManager.UpdateDisplay()
+    
+    
+    ''' this func is called when app is closing'''
+    def quit(self):
+        pass
 
 if __name__ == '__main__':
     pass
