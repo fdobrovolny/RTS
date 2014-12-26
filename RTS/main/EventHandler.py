@@ -38,10 +38,10 @@ class EventHandler(object):
                 if event.type == i:
                     self.userEvents[i](event)
             
-            self.checkForEvent(event.type, KEYDOWN, self.KEYDOWN_event, event.key) 
-            self.checkForEvent(event.type, KEYUP, self.KEYUP_event, event.key)   
-            self.checkForEvent(event.type, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, event.button)
-            self.checkForEvent(event.type, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, event.button) 
+            self.checkForEvent(event, KEYDOWN, self.KEYDOWN_event, True) 
+            self.checkForEvent(event, KEYUP, self.KEYUP_event, True)   
+            self.checkForEvent(event, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, False)
+            self.checkForEvent(event, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, False) 
         
         keys_presed = pygame.key.get_pressed()
         
@@ -53,15 +53,15 @@ class EventHandler(object):
     
     ''' 
     @author: Filip Dobrovolny
-    @param event:  event.type
+    @param event:  event from pygame.event.get() list
     @param checkEvent: for which event are we looking? (MOUSEBUTTONUP, KEYUP, ...)
     @param functions: dictationary in format {key : [func1, func2 ...]} 
-    @param key: event.key or event.button (index in functions)
+    @param key: True = event.key; False=event.button (index in functions)
     '''
     def checkForEvent(self, event, checkEvent, functions, key):
         if event.type == checkEvent:
             try:
-                functionsFIN = functions[key]
+                functionsFIN = [functions[event.button], functions[event.key]][key]
                 for i in functionsFIN:
                         i()
             except:
