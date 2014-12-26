@@ -32,6 +32,7 @@ class ScreenManager(object):
     def _PygameInit(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, self.flags)
+        pygame.display.set_caption('Bellum ' + self.main.gameDevelopmentState + " " + self.main.version)
     
     def _OpenGLInit(self):
         #init gl

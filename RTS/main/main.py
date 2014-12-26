@@ -10,11 +10,14 @@ Created on 30. 11. 2014
 '''
 class main(object):
     def __init__(self):
+        
+        self.version = "0.0.1"
+        self.gameDevelopmentState = "Pre-Alpha"
+        
         self.EventHandler = EventHandler(self)
         self.ScreenManager = ScreenManager(self, 1024, 680, 30)
         self.SoundManager = SoundManager(self)
         self.InGameScreenManager = InGameScreenManager(self, 64, 128,)
-        
         self.start_loop()
     
     def start_loop(self):
