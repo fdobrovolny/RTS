@@ -3,8 +3,8 @@ from pygame.locals import *
 from pygame.image import *
 
 from RTS.main.isoMath import IsoMathHelper
-from RTS.main.GLTexture import Texture
 from RTS.main.MapLoader import Map
+from RTS.gui.GLTexture import Texture
 '''
 Created on 25. 12. 2014
 
