@@ -4,13 +4,15 @@ from OpenGL.GLU import *
  
 class Texture(object):
  
-    def __init__(self, src):
-        """src -from where shuld be image loaded"""
-        image = pygame.image.load(src)
- 
-        self.rect = image.get_rect()
-        texdata = pygame.image.tostring(image,"RGBA",0)
-        print(self.rect)
+    def __init__(self, src, surf=None, rect=None):
+        if src != None:
+            """src -from where shuld be image loaded"""
+            image = pygame.image.load(src)
+            self.rect = image.get_rect()
+            texdata = pygame.image.tostring(image,"RGBA",0)
+        else:
+            self.rect = rect
+            texdata = pygame.image.tostring(surf,"RGBA",0)
         # Create texture object
         self.texid = glGenTextures(1)
  
