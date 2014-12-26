@@ -120,17 +120,13 @@ class InGameScreenManager(object):
         print(self.MapPos)
         if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
             self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
-            print("EDGES!")
         elif self.MapPosY > self.screenManager.width/4:
             self.MapPosY = int(self.screenManager.width/4)
-            print("EDGES!")
         
         if self.MapPosX > self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]:
             self.MapPosX = self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]
-            print("EDGES!")
         elif self.MapPosX < -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]:
             self.MapPosX = -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX),self.Map.sizeY))[1]
-            print("EDGES!")
         
         
     
