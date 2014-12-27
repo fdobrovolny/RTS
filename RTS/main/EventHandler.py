@@ -94,8 +94,10 @@ class EventHandler(object):
             temp = self.KEYDOWN_event[key]
             temp.append(function)
             self.KEYDOWN_event[key] = temp
+            self.logger.log(0, "EventHandler", "Added new binding to KEYDOWN for key " + str(key) + " function" + str(function))
         except:
             self.KEYDOWN_event[key] = [function]
+            self.logger.log(0, "EventHandler", "Added new binding to KEYDOWN for key " + str(key) + " function" + str(function))
     
     
     def unregisterKEYDOWNeventAll(self, key):

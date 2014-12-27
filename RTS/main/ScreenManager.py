@@ -100,11 +100,21 @@ class ScreenManager(object):
     
     def OpenMainMenu(self):
         self.logger.log(1, "ScreenManager", "Opening MainMenu")
+        if not self.screen is None:
+            self.screen.stop()
+        del(self.screen)
         self.screen = MainMenu(self.main, self)
     
     def OpenGame(self):
         self.logger.log(1, "ScreenManager", "Opening Game")
+        if not self.screen is None:
+            self.screen.stop()
+        del(self.screen)
         self.screen = Game(self.main, 64, 128)
+        self.logger.log(1, "ScreenManager", "Game Opened")
     
     def draw(self):
-        self.screen.draw()
+        try:
+            self.screen.draw()
+        except:
+            pass

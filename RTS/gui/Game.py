@@ -5,6 +5,7 @@ from pygame.image import *
 from RTS.main.isoMath import IsoMathHelper
 from RTS.main.MapLoader import Map
 from RTS.gui.GLTexture import Texture
+from RTS.gui.InGameMenu import InGameMenu
 '''
 Created on 25. 12. 2014
 
@@ -23,6 +24,7 @@ class Game(object):
         '''
         self.main = main
         self.screenManager = self.main.ScreenManager
+        self.logger = self.main.logger
         self.tileSizeX = tileSizeX #H
         self.tileSizeY = tileSizeY #W
         
@@ -46,6 +48,12 @@ class Game(object):
         self.screenManager.setBackgrounColor(self.screenManager.colors["Black"], 1.0)
         self.MouseSelectedTexture = Texture("../res/map/select_tile.png")
         self.MouseActive = True # False when user is in GUI
+        self.InGameMenuActive = False
+        
+        self.main.EventHandler.registerKEYDOWNevent(K_ESCAPE, self.KEYDOWNesc)
+        self.logger.log(1, "Game", "Initialized.")
+        self.logger.log(1, "Game", "Initializing InGameMenu...")
+        self.InGameMenu = InGameMenu(self.main, self.screenManager, self, self.screenManager.size[0]/2-100, self.screenManager.size[1]/2-215)
         
     
     def _IsoMathHelperInit(self):
@@ -66,7 +74,8 @@ class Game(object):
         if  -1 < mouseCoord[0] <= self.Map.sizeX and -1 < mouseCoord[1] <= self.Map.sizeY and self.MouseActive:
             select_x, select_y = self.IsoMathHelper.Map2ScreenFIN((int(mouseCoord[0]), int(mouseCoord[1])), self.MapPos)
             self.MouseSelectedTexture.draw(select_x, select_y)
-    
+        if self.InGameMenuActive:
+            self.InGameMenu.draw()
     
     def moveMap(self, dir1, dir2):
         if dir1:
@@ -111,7 +120,6 @@ class Game(object):
     
     
     def loadTextures(self):
-        print(self.Map.sizeX, self.Map.sizeX)
         for TextureSrc in self.Map.textures:
             self.tiles.append(Texture("../res/map/" + TextureSrc + ".png"))
     
@@ -163,4 +171,24 @@ class Game(object):
             self.RDT_Y_E = self.Map.sizeY
         
         self.RecalculateDisplayTiles = False
-        
+    
+    
+    def KEYDOWNesc(self):
+        if self.InGameMenuActive:
+            self.closeInGameMenu()
+        else:
+            self.openInGameMenu()
+    
+    
+    def openInGameMenu(self):
+        self.MouseActive = False
+        self.InGameMenuActive = True
+    
+    
+    def closeInGameMenu(self):
+        self.MouseActive = True
+        self.InGameMenuActive = False
+    
+    
+    def stop(self):
+        pass

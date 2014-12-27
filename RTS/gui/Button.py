@@ -108,9 +108,17 @@ class Button(object):
     def _registerClick(self):
         self.main.EventHandler.registerMOUSEBUTTONDOWNevent(1, self._onClick)
 
-    
-    def __del__(self):
-        del(self.HoverTexture)
-        del(self.BoardTexture)
+    def stop(self):
+        try:
+            del(self.HoverTexture)
+        except:
+            pass
+        try:
+            del(self.BoardTexture)
+        except:
+            pass
         self.main.EventHandler.unregisterMOUSEBUTTONDOWNevent(1, self._onClick)
         self.logger.log(1, "Button \"" + self.text + "\"", "Has been destroyed.")
+    
+    def __del__(self):
+        self.stop()

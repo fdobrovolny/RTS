@@ -61,7 +61,9 @@ class MainMenu(object):
     
     def SiglePlayer(self):
         self.logger.log(0, "MainMenu", "Button Single Player was hit.")
+        self.stop()
         self.screenManager.OpenGame()
+        del(self)
     
     def LevelEditor(self):
         self.logger.log(0, "MainMenu", "Button Level Editor was hit.")
@@ -71,12 +73,25 @@ class MainMenu(object):
     
     def Quit(self):
         self.logger.log(0, "MainMenu", "Button Quit was hit.")
+        del(self)
         self.main.quit()
     
+    def stop(self):
+        try:
+            self.SinglePlayerButton.stop()
+            del(self.SinglePlayerButton)
+            self.LevelEditorButton.stop()
+            del(self.LevelEditorButton)
+            self.OptionsButton.stop()
+            del(self.OptionsButton)
+            self.QuitButton.stop()
+            del(self.QuitButton)
+            self.logger.log(1, "MainMenu", "Buttons deleted.")
+        except:
+            pass
+        
     def __del__(self):
-        del(self.SinglePlayerButton)
-        del(self.OptionsButton)
-        del(self.QuitButton)
+        self.stop()
         self.logger.log(1, "MainMenu", "Deinitialized.")
         
         
