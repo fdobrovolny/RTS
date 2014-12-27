@@ -7,7 +7,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 
 from RTS.main.ScreenManager import ScreenManager
-from RTS.gui.GLTexture import Texture
+from RTS.gui.GLTexture import Text
 from RTS.gui.Button import Button
 
 class MainMenu(object):
@@ -26,8 +26,8 @@ class MainMenu(object):
         self.screenManager = self.main.ScreenManager
         self.display_surf = self.main.ScreenManager.display_surf
         self.colors = self.screenManager.colors
-        self.logo = Texture("../res/UI/Logo.png")
         self.middle = self.screenManager.size[0]/2
+        self.logo = Text("BELLUM", 140, self.colors["Black"], self.middle-200, self.screenManager.size[1]/10)
         
         self._setupMainMenu()
         self.screenManager.setBackgrounColor(self.colors["Red"])
@@ -35,8 +35,9 @@ class MainMenu(object):
     
         
     def draw(self):
-        self.logo.draw(self.middle-324/2, self.screenManager.size[1]/10)
+        self.logo.draw()
         self.SinglePlayerButton.draw()
+        self.LevelEditorButton.draw()
         self.OptionsButton.draw()
         self.QuitButton.draw()
     
@@ -46,20 +47,37 @@ class MainMenu(object):
                                          self.colors["Gray"], self.colors["Blue"], self.colors["Yellow"], self.colors["White"],
                                          self.middle-200, (self.screenManager.size[1]/10)*2+39, 400, 80,
                                          "Single Player", 60, self.SiglePlayer)
-        self.OptionsButton = Button(self.main, self.display_surf, 
+        self.LevelEditorButton = Button(self.main, self.display_surf, 
                                          self.colors["Gray"], self.colors["Blue"], self.colors["Yellow"], self.colors["White"],
                                          self.middle-200, (self.screenManager.size[1]/10)*2+140, 400, 80,
+                                         "Level Editor", 60, self.LevelEditor)
+        self.OptionsButton = Button(self.main, self.display_surf, 
+                                         self.colors["Gray"], self.colors["Blue"], self.colors["Yellow"], self.colors["White"],
+                                         self.middle-200, (self.screenManager.size[1]/10)*2+240, 400, 80,
                                          "Options", 60, self.Options)
         self.QuitButton = Button(self.main, self.display_surf, 
                                          self.colors["Gray"], self.colors["Blue"], self.colors["Yellow"], self.colors["White"],
-                                         self.middle-200, (self.screenManager.size[1]/10)*2+240, 400, 80,
-                                         "Quit", 60, self.main.quit)
+                                         self.middle-200, (self.screenManager.size[1]/10)*2+340, 400, 80,
+                                         "Quit", 60, self.Quit)
     
     def SiglePlayer(self):
         self.logger.log(0, "MainMenu", "Button Single Player was hit.")
     
+    def LevelEditor(self):
+        self.logger.log(0, "MainMenu", "Button Level Editor was hit.")
+    
     def Options(self):
         self.logger.log(0, "MainMenu", "Button Options was hit.")
+    
+    def Quit(self):
+        self.logger.log(0, "MainMenu", "Button Quit was hit.")
+        self.main.quit()
+    
+    def __del__(self):
+        del(self.SinglePlayerButton)
+        del(self.OptionsButton)
+        del(self.QuitButton)
+        self.logger.log(1, "MainMenu", "Deinitialized.")
         
         
         

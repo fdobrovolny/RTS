@@ -113,4 +113,4 @@ class Button(object):
         del(self.HoverTexture)
         del(self.BoardTexture)
         self.main.EventHandler.unregisterMOUSEBUTTONDOWNevent(1, self._onClick)
-        self.logger.log(1, "Button \"" + self.text + "\"" "Has been destroyed.")
+        self.logger.log(1, "Button \"" + self.text + "\"", "Has been destroyed.")

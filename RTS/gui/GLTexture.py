@@ -41,4 +41,27 @@ class Texture(object):
         glLoadIdentity()
         glTranslatef(x, y, 0)
         glCallList(self.newList)
+
+class Text(object):
+ 
+    def __init__(self, text, textSize, text_color, x, y, font=None):
+        
+        self.x = x
+        self.y = y
+        font = pygame.font.Font(None, textSize)
+        textSurf = font.render(text, True, text_color)
+        textRect = textSurf.get_rect()
+        self.rect = textRect
+        self.Texture = Texture(None, textSurf, textRect)
+
+    def draw(self, x=None,y=None):
+        if x is None and y is None:
+            self.Texture.draw(self.x, self.y)
+        elif x is None:
+            self.Texture.draw(self.x, y)
+        elif y is None:
+            self.Texture.draw(x, self.y)
+        else:
+            self.Texture.draw(x, y)
+            
     

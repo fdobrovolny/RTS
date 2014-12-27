@@ -45,12 +45,13 @@ class EventHandler(object):
             self.checkForEvent(event, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, False)
             self.checkForEvent(event, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, False) 
         
-        keys_presed = pygame.key.get_pressed()
-        
-        for i in self.KEYPRESSED_event:
-            if keys_presed[i]:
-                for func in self.KEYPRESSED_event[i]:
-                    func()
+        if self.main.loop:
+            keys_presed = pygame.key.get_pressed()
+            
+            for i in self.KEYPRESSED_event:
+                if keys_presed[i]:
+                    for func in self.KEYPRESSED_event[i]:
+                        func()
     
     
     ''' 
@@ -165,21 +166,21 @@ class EventHandler(object):
             temp = self.MOUSEBUTTONDOWN_event[button]
             temp.append(function)
             self.MOUSEBUTTONDOWN_event[button] = temp
-            self.logger.log(0, "EventHandler", "Added new binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
+            self.logger.log(0, "EventHandler", "Added new binding to MOUSEBUTTONDOWN for button " + str(button) + " function" + str(function))
         except KeyError:
             self.MOUSEBUTTONDOWN_event[button] = [function]
-            self.logger.log(0, "EventHandler", "Creating new binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
+            self.logger.log(0, "EventHandler", "Creating new binding to MOUSEBUTTONDOWN for button " + str(button) + " function" + str(function))
     
     
     def unregisterMOUSEBUTTONDOWNeventAll(self, button):
         del(self.MOUSEBUTTONDOWN_event[button])
-        self.logger.log(0, "EventHandler", "Removed all bindings to MOUSEBUTTONDOWN for button" + str(button))
+        self.logger.log(0, "EventHandler", "Removed all bindings to MOUSEBUTTONDOWN for button " + str(button))
     
     
     def unregisterMOUSEBUTTONDOWNevent(self, button, function):
         try:
             self.MOUSEBUTTONDOWN_event[button].remove(function)
-            self.logger.log(0, "EventHandler", "Removed binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
+            self.logger.log(0, "EventHandler", "Removed binding to MOUSEBUTTONDOWN for button " + str(button) + " function" + str(function))
         except:
             pass
     

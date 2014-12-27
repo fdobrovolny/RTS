@@ -24,12 +24,15 @@ class main(object):
         self.SoundManager = SoundManager(self)
         self.mainMenu = MainMenu(self)
         #self.InGameScreenManager = InGameScreenManager(self, 64, 128,)
+        self.loop = True
         self.start_loop()
     
     def start_loop(self):
-        while True:
+        while self.loop:
             self.ScreenManager.clearScreen()
             self.EventHandler.tick()
+            if not self.loop:
+                break
             self.mainMenu.draw()
             #self.InGameScreenManager.Draw()
             self.ScreenManager.UpdateDisplay()
@@ -37,9 +40,10 @@ class main(object):
     
     ''' this func is called when app is closing'''
     def quit(self):
+        self.loop = False
         self.logger.log(1, "MAIN", "Quitting...")
         pygame.quit()
         sys.exit()
 
 if __name__ == '__main__':
-    main()
+    pass
