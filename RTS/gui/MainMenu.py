@@ -6,7 +6,6 @@ Created on 26. 12. 2014
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-from RTS.main.ScreenManager import ScreenManager
 from RTS.gui.GLTexture import Text
 from RTS.gui.Button import Button
 
@@ -16,17 +15,17 @@ class MainMenu(object):
     '''
 
 
-    def __init__(self, main):
+    def __init__(self, main, screenManager):
         '''
         Constructor
         '''
         
         self.main = main
         self.logger = self.main.logger
-        self.screenManager = self.main.ScreenManager
-        self.display_surf = self.main.ScreenManager.display_surf
-        self.colors = self.screenManager.colors
-        self.middle = self.screenManager.size[0]/2
+        self.screenManager = screenManager
+        self.display_surf = screenManager.display_surf
+        self.colors = screenManager.colors
+        self.middle = screenManager.size[0]/2
         self.logo = Text("BELLUM", 140, self.colors["Black"], self.middle-200, self.screenManager.size[1]/10)
         
         self._setupMainMenu()
@@ -62,6 +61,7 @@ class MainMenu(object):
     
     def SiglePlayer(self):
         self.logger.log(0, "MainMenu", "Button Single Player was hit.")
+        self.screenManager.OpenGame()
     
     def LevelEditor(self):
         self.logger.log(0, "MainMenu", "Button Level Editor was hit.")

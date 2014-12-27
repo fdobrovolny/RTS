@@ -2,9 +2,7 @@ import pygame, sys, datetime
 from RTS.main.ScreenManager import ScreenManager
 from RTS.main.SoundManager import SoundManager
 from RTS.main.EventHandler import EventHandler
-from RTS.main.InGameScreenManager import InGameScreenManager
 from RTS.main.Logger import Logger
-from RTS.gui.MainMenu import MainMenu
 '''
 Created on 30. 11. 2014
 
@@ -22,8 +20,6 @@ class main(object):
         self.EventHandler = EventHandler(self)
         self.ScreenManager = ScreenManager(self, 1024, 600, 30)
         self.SoundManager = SoundManager(self)
-        self.mainMenu = MainMenu(self)
-        #self.InGameScreenManager = InGameScreenManager(self, 64, 128,)
         self.loop = True
         self.start_loop()
     
@@ -33,8 +29,7 @@ class main(object):
             self.EventHandler.tick()
             if not self.loop:
                 break
-            self.mainMenu.draw()
-            #self.InGameScreenManager.Draw()
+            self.ScreenManager.draw()
             self.ScreenManager.UpdateDisplay()
     
     

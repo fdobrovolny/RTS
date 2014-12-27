@@ -11,7 +11,7 @@ Created on 25. 12. 2014
 @author: fdobrovolny
 '''
 
-class InGameScreenManager(object):
+class Game(object):
     '''
     This class takes care of drawing map units buldings etc.
     '''
@@ -43,7 +43,7 @@ class InGameScreenManager(object):
         self.Map.loadMap()
         self.tiles = []
         self.loadTextures()
-        
+        self.screenManager.setBackgrounColor(self.screenManager.colors["Black"], 1.0)
         self.MouseSelectedTexture = Texture("../res/map/select_tile.png")
         self.MouseActive = True # False when user is in GUI
         
@@ -52,7 +52,7 @@ class InGameScreenManager(object):
         self.IsoMathHelper = IsoMathHelper(self.tileSizeY/2, self.tileSizeX/2, self.screenManager.width/2)
     
     
-    def Draw(self):
+    def draw(self):
         if self.RecalculateDisplayTiles:
             self.RDT()
         for x in range(self.RDT_X_S, self.RDT_X_E):

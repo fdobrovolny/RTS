@@ -5,6 +5,9 @@ from pygame.image import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
+from RTS.gui.MainMenu import MainMenu
+from RTS.gui.Game import Game
+
 '''
 Created on 30. 11. 2014
 
@@ -38,7 +41,8 @@ class ScreenManager(object):
         self.logger.log(0, "ScreenManager", "Size: " + str(self.size))
         self.logger.log(0, "ScreenManager", "MaxFPS: " + str(self.maxFPS))
         
-        
+        self.screen = None
+        self.OpenMainMenu()
     
     def _PygameInit(self):
         pygame.init()
@@ -93,3 +97,14 @@ class ScreenManager(object):
         self.backgroundColorR, self.backgroundColorG, self.backgroundColorB = color
         self.backgroundColorA = alpha
         self.logger.log(0, "ScreenManager", "Setting background color to " + str(color))
+    
+    def OpenMainMenu(self):
+        self.logger.log(1, "ScreenManager", "Opening MainMenu")
+        self.screen = MainMenu(self.main, self)
+    
+    def OpenGame(self):
+        self.logger.log(1, "ScreenManager", "Opening Game")
+        self.screen = Game(self.main, 64, 128)
+    
+    def draw(self):
+        self.screen.draw()
