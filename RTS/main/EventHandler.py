@@ -32,8 +32,6 @@ class EventHandler(object):
             
             if event.type == QUIT:
                 self.main.quit()
-                pygame.quit()
-                sys.exit()
             
             for i in self.userEvents:
                 if event.type == i:
@@ -90,7 +88,7 @@ class EventHandler(object):
     def registerKEYDOWNevent(self, key, function):
         try:
             temp = self.KEYDOWN_event[key]
-            temp.apppend(function)
+            temp.append(function)
             self.KEYDOWN_event[key] = temp
         except:
             self.KEYDOWN_event[key] = [function]
@@ -114,7 +112,7 @@ class EventHandler(object):
     def registerKEYUPevent(self, key, function):
         try:
             temp = self.KEYUP_event[key]
-            temp.apppend(function)
+            temp.append(function)
             self.KEYUP_event[key] = temp
         except:
             self.KEYUP_event[key] = [function]
@@ -138,7 +136,7 @@ class EventHandler(object):
     def registerKEYPRESSEDevent(self, key, function):
         try:
             temp = self.KEYPRESSED_event[key]
-            temp.apppend(function)
+            temp.append(function)
             self.KEYPRESSED_event[key] = temp
         except:
             self.KEYPRESSED_event[key] = [function]
@@ -162,10 +160,12 @@ class EventHandler(object):
     def registerMOUSEBUTTONDOWNevent(self, button, function):
         try:
             temp = self.MOUSEBUTTONDOWN_event[button]
-            temp.apppend(function)
+            temp.append(function)
             self.MOUSEBUTTONDOWN_event[button] = temp
-        except:
+            print("EVENTHANDLER: Added new binding to MOUSEBUTTONDOWN for button", button, "function", function)
+        except KeyError:
             self.MOUSEBUTTONDOWN_event[button] = [function]
+            print("EVENTHANDLER: Creating new binding to MOUSEBUTTONDOWN for button", button, "function", function)
     
     
     def unregisterMOUSEBUTTONDOWNeventAll(self, button):

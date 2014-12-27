@@ -19,7 +19,7 @@ class ScreenManager(object):
     def __init__(self, main, width, height, maxFPS):
         self.main = main
         self.size = self.width, self.height = width, height
-        self.flags = OPENGL | DOUBLEBUF
+        self.flags = OPENGL | DOUBLEBUF #| FULLSCREEN
         self.maxFPS = maxFPS
         
         self.display_surf = None
@@ -28,6 +28,10 @@ class ScreenManager(object):
         self.FPSClock = pygame.time.Clock()
         self.colors = {}
         self.SetupColors()
+        self.backgroundColorR = 0.0
+        self.backgroundColorG = 0.0
+        self.backgroundColorB = 0.0
+        self.backgroundColorA = 1.0
     
     def _PygameInit(self):
         pygame.init()
@@ -68,10 +72,13 @@ class ScreenManager(object):
         self.colors["Yellow"] = (255, 255,   0)
     
     def clearScreen(self):
-        glClearColor(0.0,0.0,0.0,1.0)
+        glClearColor(self.backgroundColorR, self.backgroundColorG, self.backgroundColorB, self.backgroundColorA)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
     def UpdateDisplay(self):
         self.FPSClock.tick(self.maxFPS)
         pygame.display.flip()
     
+    def setBackgrounColor(self, color, alpha=0.0):
+        self.backgroundColorR, self.backgroundColorG, self.backgroundColorB = color
+        self.backgroundColorA = alpha
