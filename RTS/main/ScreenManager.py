@@ -18,6 +18,7 @@ class ScreenManager(object):
 
     def __init__(self, main, width, height, maxFPS):
         self.main = main
+        self.logger = self.main.logger
         self.size = self.width, self.height = width, height
         self.flags = OPENGL | DOUBLEBUF #| FULLSCREEN
         self.maxFPS = maxFPS
@@ -32,11 +33,18 @@ class ScreenManager(object):
         self.backgroundColorG = 0.0
         self.backgroundColorB = 0.0
         self.backgroundColorA = 1.0
+        
+        self.logger.log(1, "ScreenManager", "Initialized." )
+        self.logger.log(0, "ScreenManager", "Size: " + str(self.size))
+        self.logger.log(0, "ScreenManager", "MaxFPS: " + str(self.maxFPS))
+        
+        
     
     def _PygameInit(self):
         pygame.init()
         self.display_surf = pygame.display.set_mode(self.size, self.flags)
         pygame.display.set_caption('Bellum ' + self.main.gameDevelopmentState + " " + self.main.version)
+        self.logger.log(1, "ScreenManager", "Pygame initialized.")
     
     def _OpenGLInit(self):
         #init gl
@@ -52,6 +60,8 @@ class ScreenManager(object):
         glEnable(GL_TEXTURE_2D)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA)
+        
+        self.logger.log(1, "ScreenManager", "OpenGL initialized.")
     
     def SetupColors(self):
         self.colors["Aqua"] = (  0, 255, 255)
@@ -82,3 +92,4 @@ class ScreenManager(object):
     def setBackgrounColor(self, color, alpha=0.0):
         self.backgroundColorR, self.backgroundColorG, self.backgroundColorB = color
         self.backgroundColorA = alpha
+        self.logger.log(0, "ScreenManager", "Setting background color to " + str(color))

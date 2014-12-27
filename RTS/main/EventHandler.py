@@ -18,6 +18,7 @@ class EventHandler(object):
         Constructor
         '''
         self.main = main
+        self.logger = self.main.logger
         self.userEvents = {}
         self.userEventsNum = 0
         #SONG_END = pygame.USEREVENT + 1
@@ -26,6 +27,8 @@ class EventHandler(object):
         self.KEYPRESSED_event = {}
         self.MOUSEBUTTONDOWN_event = {}
         self.MOUSEBUTTONUP_event = {}
+        
+        self.logger.log(1, "EventHandler", "Initialized.")
     
     def tick(self):
         for event in pygame.event.get():
@@ -162,19 +165,21 @@ class EventHandler(object):
             temp = self.MOUSEBUTTONDOWN_event[button]
             temp.append(function)
             self.MOUSEBUTTONDOWN_event[button] = temp
-            print("EVENTHANDLER: Added new binding to MOUSEBUTTONDOWN for button", button, "function", function)
+            self.logger.log(0, "EventHandler", "Added new binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
         except KeyError:
             self.MOUSEBUTTONDOWN_event[button] = [function]
-            print("EVENTHANDLER: Creating new binding to MOUSEBUTTONDOWN for button", button, "function", function)
+            self.logger.log(0, "EventHandler", "Creating new binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
     
     
     def unregisterMOUSEBUTTONDOWNeventAll(self, button):
         del(self.MOUSEBUTTONDOWN_event[button])
+        self.logger.log(0, "EventHandler", "Removed all bindings to MOUSEBUTTONDOWN for button" + str(button))
     
     
     def unregisterMOUSEBUTTONDOWNevent(self, button, function):
         try:
             self.MOUSEBUTTONDOWN_event[button].remove(function)
+            self.logger.log(0, "EventHandler", "Removed binding to MOUSEBUTTONDOWN for button" + str(button) + "function" + str(function))
         except:
             pass
     

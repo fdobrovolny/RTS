@@ -18,6 +18,7 @@ class Button(object):
         Constructor
         '''
         self.main = main
+        self.logger = self.main.logger
         self.surface = surface
         self.in_color = in_color
         self.bord_color = bord_color
@@ -45,6 +46,16 @@ class Button(object):
         self._initText()
         self._genTextures()
         self._registerClick()
+        
+        self.logger.log(1, "Button \"" + self.text + "\"","Initialized.")
+        self.logger.log(0, "Button \"" + self.text + "\"","in_color: " + str(self.in_color))
+        self.logger.log(0, "Button \"" + self.text + "\"","bord_color: " + str(self.bord_color))
+        self.logger.log(0, "Button \"" + self.text + "\"","hover_color: " + str(self.hover_color))
+        self.logger.log(0, "Button \"" + self.text + "\"","text_color: " + str(self.text_color))
+        self.logger.log(0, "Button \"" + self.text + "\"","pos: " + str(self.pos))
+        self.logger.log(0, "Button \"" + self.text + "\"","size: " + str(self.size))
+        self.logger.log(0, "Button \"" + self.text + "\"", "border: " + str(self.border))
+        self.logger.log(0, "Button \"" + self.text + "\"", "textSize: " + str(self.textSize))
     
     
     def _initRect(self):
@@ -66,6 +77,7 @@ class Button(object):
         
         self.HoverTexture = Texture(None, self.HoverSurf, self.Rect)
         self.BoardTexture = Texture(None, self.BordSurf , self.Rect)
+        self.logger.log(1, "Button \"" + self.text + "\"","Textures generated.")
         
     
     def _initText(self):
@@ -98,4 +110,7 @@ class Button(object):
 
     
     def __del__(self):
+        del(self.HoverTexture)
+        del(self.BoardTexture)
         self.main.EventHandler.unregisterMOUSEBUTTONDOWNevent(1, self._onClick)
+        self.logger.log(1, "Button \"" + self.text + "\"" "Has been destroyed.")

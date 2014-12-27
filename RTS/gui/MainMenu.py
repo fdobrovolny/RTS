@@ -22,6 +22,7 @@ class MainMenu(object):
         '''
         
         self.main = main
+        self.logger = self.main.logger
         self.screenManager = self.main.ScreenManager
         self.display_surf = self.main.ScreenManager.display_surf
         self.colors = self.screenManager.colors
@@ -30,7 +31,7 @@ class MainMenu(object):
         
         self._setupMainMenu()
         self.screenManager.setBackgrounColor(self.colors["Red"])
-        
+        self.logger.log(1, "MainMenu", "Initialized.")
     
         
     def draw(self):
@@ -55,10 +56,10 @@ class MainMenu(object):
                                          "Quit", 60, self.main.quit)
     
     def SiglePlayer(self):
-        print("Single Player")
+        self.logger.log(0, "MainMenu", "Button Single Player was hit.")
     
     def Options(self):
-        print("Options")
+        self.logger.log(0, "MainMenu", "Button Options was hit.")
         
         
         
