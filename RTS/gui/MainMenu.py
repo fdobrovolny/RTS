@@ -73,7 +73,7 @@ class MainMenu(object):
     
     def Quit(self):
         self.logger.log(0, "MainMenu", "Button Quit was hit.")
-        del(self)
+        self.stop()
         self.main.quit()
     
     def stop(self):
