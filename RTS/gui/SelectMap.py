@@ -6,6 +6,8 @@ Created on 6. 2. 2015
 import os
 
 from RTS.main.MapLoader import Map
+from RTS.gui.GLTexture import Text
+from RTS.gui.Button import Button
 
 
 class SelectMap(object):
@@ -30,16 +32,39 @@ class SelectMap(object):
 
         self._loadMaps()
 
+        self.pages = len(self.MapList)/5
+        self.arePages = True if self.pages > 1 else False
+        self.page = 0
+
+        self.buttons = []
+
+        self.text = Text("Select Map", 50,
+                         self.colors["Black"],
+                         self.middle-200,
+                         self.screenManager.size[1]/20)
+
         self.logger.log(1, "SelectMap", "Initialized.")
 
     def draw(self):
-        pass
+        self.text.draw()
 
     def stop(self):
         pass
 
     def _genTextures(self):
-        pass
+        for MapEntry in self.MapList:
+            self.buttons.append(Button(self.main,
+                                       self.display_surf,
+                                       self.colors["Gray"],
+                                       self.colors["Blue"],
+                                       self.colors["Yellow"],
+                                       self.colors["White"],
+                                       self.middle-200,
+                                       (self.screenManager.size[1]/10)*2+39,
+                                       400, 80,
+                                       MapEntry.name, 60,
+                                       self.onClick,
+                                       MapEntry))
 
     def _loadMaps(self):
         self.logger.log(1, "SelectMap", "Loading maps.")
@@ -51,3 +76,6 @@ class SelectMap(object):
                 self.MapList.append(Map(i[:-4], self.logger).loadMapInfo())
                 self.logger.log(1, "SelectMap", "Loaded info for map \""
                                 + self.MAPS_PATH+"/"+i+"\"")
+
+    def _onClick(self, ident):
+        self.nextScreen(ident)
