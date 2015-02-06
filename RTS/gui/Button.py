@@ -15,7 +15,7 @@ class Button(object):
 
     def __init__(self, main, surface, in_color, bord_color,
                  hover_color, text_color, x, y, sizeX, sizeY,
-                 text, textSize, onClick, border=5):
+                 text, textSize, onClick, border=5, onClickIdent=None):
         '''
         Constructor
         '''
@@ -32,6 +32,7 @@ class Button(object):
         self.text = text
         self.textSize = textSize
         self.onClick = onClick
+        self.onClickIdent = onClickIdent
 
         self.Rect = None
         self.InRect = None
@@ -110,7 +111,10 @@ class Button(object):
 
     def _onClick(self):
         if self.isHover():
-            self.onClick()
+            if self.onClickIdent is None:
+                self.onClick()
+            else:
+                self.onClick(self.onClickIdent)
 
     def _registerClick(self):
         self.main.EventHandler.registerMOUSEBUTTONDOWNevent(1, self._onClick)
