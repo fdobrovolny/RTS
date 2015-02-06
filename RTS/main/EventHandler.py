@@ -27,6 +27,7 @@ class EventHandler(object):
         self.KEYPRESSED_event = {}
         self.MOUSEBUTTONDOWN_event = {}
         self.MOUSEBUTTONUP_event = {}
+        self.KEYDOWN_listener = []
         
         self.logger.log(1, "EventHandler", "Initialized.")
     
@@ -44,6 +45,10 @@ class EventHandler(object):
             self.checkForEvent(event, KEYUP, self.KEYUP_event, True)   
             self.checkForEvent(event, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, False)
             self.checkForEvent(event, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, False) 
+            
+            if event.type == KEYDOWN:
+                for i in self.KEYDOWN_listener:
+                    i(event.key) 
         
         if self.main.loop:
             keys_presed = pygame.key.get_pressed()
@@ -237,3 +242,17 @@ class EventHandler(object):
     def unregisterMOUSEBUTTONUPeventAllKEys(self):
         self.MOUSEBUTTONUP_event = {}
     
+    
+    ''' Register keydown listener - listener section
+        * keydown listener - Listener function which is called when user press a key
+        ####################################################################################
+    ''' 
+    def registerKEYDOWNlistener(self, function):
+        self.KEYDOWN_listener.append(function)
+    
+    def unregisterKEYDOWNlistener(self, function):
+        del self.KEYDOWN_listener[self.KEYDOWN_listener.index(function)]
+    
+    def unregisterAllKEYDOWNlisteners(self):
+        self.KEYDOWN_listener = []
+            
