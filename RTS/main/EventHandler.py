@@ -73,7 +73,10 @@ class EventHandler(object):
             except:
                 pass
     
-        
+    ''' Register user - Event section
+        * UserEvent - Register UserEvent n at EventHandler to call function when event occur
+        ####################################################################################
+    '''    
     def registerUserEvent(self, function):
         self.userEventsNum += 1
         event = pygame.USEREVENT + self.userEventsNum
@@ -89,6 +92,10 @@ class EventHandler(object):
         self.userEvents = {}
     
     
+    ''' Register KEYDOWN - Event section
+        * KEYDOWN - event which occur when user press a key
+        ####################################################################################
+    '''
     def registerKEYDOWNevent(self, key, function):
         try:
             temp = self.KEYDOWN_event[key]
@@ -115,6 +122,10 @@ class EventHandler(object):
         self.KEYDOWN_event = {}
     
     
+    ''' Register KEYUP - Event section
+        * KEYUP - event which occur when user release a key
+        ####################################################################################
+    '''
     def registerKEYUPevent(self, key, function):
         try:
             temp = self.KEYUP_event[key]
@@ -139,6 +150,10 @@ class EventHandler(object):
         self.KEYUP_event = {}
     
     
+    ''' Register KEYPRESSED - section
+        * KEYPRESSED - this section takes care of buttons which were pressed but nor released yet.
+        ####################################################################################
+    '''
     def registerKEYPRESSEDevent(self, key, function):
         try:
             temp = self.KEYPRESSED_event[key]
@@ -163,6 +178,10 @@ class EventHandler(object):
         self.KEYPRESSED_event = {}
     
     
+    ''' Register MOUSEBUTTONDOWN - event section
+        * MOUSEBUTTONDOWN - event which occur when user press one of the mouse buttons
+        ####################################################################################
+    '''
     def registerMOUSEBUTTONDOWNevent(self, button, function):
         try:
             temp = self.MOUSEBUTTONDOWN_event[button]
@@ -191,8 +210,17 @@ class EventHandler(object):
         self.MOUSEBUTTONDOWN_event = {}
     
     
+    ''' Register MOUSEBUTTOUP - event section
+        * MOUSEBUTTONUP - event which occur when user release one of the mouse buttons
+        ####################################################################################
+    '''
     def registerMOUSEBUTTONUPevent(self, button, function):
-        self.MOUSEBUTTOUP_event[button] = function
+        try:
+            temp = self.MOUSEBUTTONUP_event[button]
+            temp.append(function)
+            self.MOUSEBUTTONUP_event[button] = temp
+        except KeyError:
+            self.MOUSEBUTTONUP_event[button] = [function]
     
        
     def unregisterMOUSEBUTTONUPeventAll(self, button):
