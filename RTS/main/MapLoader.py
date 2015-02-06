@@ -31,12 +31,15 @@ class Map(object):
     '''
 
 
-    def __init__(self, src):
+    def __init__(self, src, logger):
         '''
         Constructor
         '''
         self.Header = "ISO_Game_1.0"
-        self.src = src
+        if src[-4:] == ".map":
+            self.src = src[:-4]
+        else:
+            self.src = src
         self.name = None
         self.author = None
         self.desc = None
@@ -44,6 +47,10 @@ class Map(object):
         self.sizeX = None
         self.sizeY = None
         self.matrix = None
+        self.logger = logger
+        self.loggerName = "Map \"" + self.src + ".map\""
+        
+        self.logger.log(1, self.loggerName, "Map initialized.")
 
 
     def _readTextTillByte(self, f, end):
@@ -63,6 +70,9 @@ class Map(object):
         self.sizeX = sizeX
         self.sizeY = sizeY
         self.matrix = numpy.array([[0 for y in range(sizeY)] for x in range(sizeX)], dtype=numpy.int8)
+        self.logger.log(1, self.loggerName, "New map created.")
+        self._logMapInfo()
+        
     
     def writeMap(self):
         f = open("../res/maps/" + self.src + ".map", "wb")
@@ -117,6 +127,7 @@ class Map(object):
         f.write(bytes([30])) # End of record separator
         f.write(bytes([25])) # end of medium
         f.close()
+        self.logger.log(1, self.loggerName, "Map saved.")
     
     
     def loadMap(self):
@@ -164,10 +175,11 @@ class Map(object):
             return False, "can't find end of file"
         
         f.close()
-    
+        self.logger.log(1, self.loggerName, "Map loaded.")
+        self._logMapInfo()
     
     def loadMapInfo(self):
-        f = open("..res/maps/" + self.src + ".map", "rb")
+        f = open("../res/maps/" + self.src + ".map", "rb")
         header = [1]
         for i in "ISO_Game_1.0":
             header.append(ord(i))
@@ -196,3 +208,13 @@ class Map(object):
         if not f.read(3) == bytes([3, 30, 1]):
             return False, "No size end"
         f.close()
+        
+        self.logger.log(1, self.loggerName, "Map info loaded.")
+        self._logMapInfo()
+    
+    def _logMapInfo(self):
+        self.logger.log(0, self.loggerName, "name: " + self.name)
+        self.logger.log(0, self.loggerName, "author: " + self.author)
+        self.logger.log(0, self.loggerName, "desc: " + self.desc)
+        self.logger.log(0, self.loggerName, "sizeX: " + str(self.sizeX))
+        self.logger.log(0, self.loggerName, "sizeY: " + str(self.sizeY))

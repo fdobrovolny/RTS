@@ -41,7 +41,7 @@ class Game(object):
         self.RDT_Y_S = None
         self.RDT_Y_E = None
         
-        self.Map = Map(map)
+        self.Map = Map(map, self.logger)
         self.Map.loadMap()
         self.tiles = []
         self.loadTextures()
