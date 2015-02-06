@@ -28,7 +28,7 @@ class MainMenu(object):
         self.middle = screenManager.size[0]/2
         self.logo = Text("BELLUM", 140, self.colors["Black"], self.middle-200,
                          self.screenManager.size[1]/10)
-        
+
         self._setupMainMenu()
         self.screenManager.setBackgrounColor(self.colors["Red"])
         self.logger.log(1, "MainMenu", "Initialized.")
