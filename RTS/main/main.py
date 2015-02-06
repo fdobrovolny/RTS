@@ -12,7 +12,7 @@ class main(object):
     def __init__(self):
         
         self.logger = Logger(True)
-        self.version = "0.0.1"
+        self.version = "0.0.2"
         self.gameDevelopmentState = "Pre-Alpha"
         self.logger.log(1, "MAIN", "Starting Bellum version " + self.gameDevelopmentState + " " + self.version)
         self.logger.log(1, "MAIN", "Today is " + str(datetime.datetime.today()))

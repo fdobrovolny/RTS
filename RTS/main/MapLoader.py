@@ -3,12 +3,13 @@ Created on 5. 12. 2014
 
 @author: Filip Dobrovolny
 '''
-
+import numpy
 class Map(object):
     '''
     @author: Filip Dobrovolny
     @param src: Location of .map file
     @note: Load/Save/Edit Map
+    @note: there can be only 256 textures (0-255)
     @todo: move map size info before textures
     bin map file definition
         <> - string
@@ -61,7 +62,7 @@ class Map(object):
         self.textures = textures
         self.sizeX = sizeX
         self.sizeY = sizeY
-        self.matrix = [[0 for y in range(sizeY)] for x in range(sizeX)]
+        self.matrix = numpy.array([[0 for y in range(sizeY)] for x in range(sizeX)], dtype=numpy.int8)
     
     def writeMap(self):
         f = open("../res/maps/" + self.src + ".map", "wb")
