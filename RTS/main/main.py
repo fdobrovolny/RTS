@@ -8,21 +8,23 @@ Created on 30. 11. 2014
 
 @author: fdobrovolny
 '''
+
+
 class main(object):
     def __init__(self):
-        
         self.logger = Logger(True)
         self.version = "0.0.2"
         self.gameDevelopmentState = "Pre-Alpha"
-        self.logger.log(1, "MAIN", "Starting Bellum version " + self.gameDevelopmentState + " " + self.version)
+        self.logger.log(1, "MAIN", "Starting Bellum version "
+                        + self.gameDevelopmentState + " " + self.version)
         self.logger.log(1, "MAIN", "Today is " + str(datetime.datetime.today()))
-        
+
         self.EventHandler = EventHandler(self)
         self.ScreenManager = ScreenManager(self, 1024, 600, 30)
         self.SoundManager = SoundManager(self)
         self.loop = True
         self.start_loop()
-    
+
     def start_loop(self):
         while self.loop:
             self.ScreenManager.clearScreen()
@@ -31,8 +33,7 @@ class main(object):
                 break
             self.ScreenManager.draw()
             self.ScreenManager.UpdateDisplay()
-    
-    
+
     ''' this func is called when app is closing'''
     def quit(self):
         self.loop = False
