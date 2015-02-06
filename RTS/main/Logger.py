@@ -5,19 +5,29 @@ Created on 27. 12. 2014
 @author: fdobrovolny
 '''
 
+
 class Logger(object):
     '''
     classdocs
     '''
 
-
-    def __init__(self, print2Console=False, logfile="../logs/"+str(datetime.date.today())):
+    def __init__(self, print2Console=False, logfile=None):
         '''
         Constructor
         '''
+        if logfile is None:
+            self.logfile = "../logs/"+str(datetime.date.today())
+        else:
+            self.logfile = logfile
         self.print2Console = print2Console
-        self.levels = {0 : "DEBUG:", 1 : "INFO", 2 : "WARN", 3 : "ERROR"}
-    
+        self.levels = {0: "DEBUG:",
+                       1: "INFO",
+                       2: "WARN",
+                       3: "ERROR"
+                       }
+
     def log(self, level, name, message):
         if self.print2Console:
-            print(str(datetime.datetime.now().time()),self.levels[level], name + ":", message)
+            print(str(datetime.datetime.now().time()),
+                  self.levels[level],
+                  name + ":", message)
