@@ -13,7 +13,7 @@ class SelectMap(object):
     classdocs
     '''
 
-    def __init__(self, main, screenManager):
+    def __init__(self, main, screenManager, nextScreen):
         '''
         Constructor
         '''
@@ -23,10 +23,13 @@ class SelectMap(object):
         self.display_surf = screenManager.display_surf
         self.colors = screenManager.colors
         self.middle = screenManager.size[0]/2
+        self.nextScreen = nextScreen
         self.screenManager.setBackgrounColor(self.colors["Navy Blue"])
         self.MAPS_PATH = "../res/maps"
         self.MapList = []
+
         self._loadMaps()
+
         self.logger.log(1, "SelectMap", "Initialized.")
 
     def draw(self):

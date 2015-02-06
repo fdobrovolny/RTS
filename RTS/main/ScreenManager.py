@@ -8,6 +8,7 @@ from OpenGL.GLUT import *
 
 from RTS.gui.MainMenu import MainMenu
 from RTS.gui.Game import Game
+from RTS.gui.SelectMap import SelectMap
 
 '''
 Created on 30. 11. 2014
@@ -109,13 +110,21 @@ class ScreenManager(object):
         del(self.screen)
         self.screen = MainMenu(self.main, self)
 
-    def OpenGame(self):
+    def OpenGame(self, map="base"):
         self.logger.log(1, "ScreenManager", "Opening Game")
         if self.screen is not None:
             self.screen.stop()
         del(self.screen)
-        self.screen = Game(self.main, 64, 128)
+        self.screen = Game(self.main, self, 64, 128, map)
         self.logger.log(1, "ScreenManager", "Game Opened")
+
+    def OpenSelectMap(self, nextScreen=None):
+        if nextScreen is None:
+            nextScreen = self.OpenGame
+        if self.screen is not None:
+            self.screen.stop()
+        del(self.screen)
+        self.screen = SelectMap(self.main, self, nextScreen)
 
     def draw(self):
         try:

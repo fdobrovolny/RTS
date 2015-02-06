@@ -18,12 +18,12 @@ class Game(object):
     This class takes care of drawing map units buldings etc.
     '''
 
-    def __init__(self, main, tileSizeX, tileSizeY, map="base"):
+    def __init__(self, main, ScreenManager, tileSizeX, tileSizeY, map="base"):
         '''
         Constructor
         '''
         self.main = main
-        self.screenManager = self.main.ScreenManager
+        self.screenManager = ScreenManager
         self.logger = self.main.logger
         self.tileSizeX = tileSizeX  # H
         self.tileSizeY = tileSizeY  # W
@@ -31,8 +31,8 @@ class Game(object):
         self.IsoMathHelper = None
         self._IsoMathHelperInit()
 
-        self.MapPos = self.MapPosX, self.MapPosY =  0, 0
-        self.MapMovConst = 10  
+        self.MapPos = self.MapPosX, self.MapPosY = 0, 0
+        self.MapMovConst = 10
         self.RegisterMapMovement()
 
         self.RecalculateDisplayTiles = True  # determine if we have to recalculate which tiles should be shown
@@ -54,7 +54,7 @@ class Game(object):
         self.logger.log(1, "Game", "Initialized.")
         self.logger.log(1, "Game", "Initializing InGameMenu...")
         self.InGameMenu = InGameMenu(self.main, self.screenManager, self,
-                                     self.screenManager.size[0]/2-100, 
+                                     self.screenManager.size[0]/2-100,
                                      self.screenManager.size[1]/2-215)
 
     def _IsoMathHelperInit(self):
@@ -123,8 +123,8 @@ class Game(object):
             self.tiles.append(Texture("../res/map/" + TextureSrc + ".png"))
 
     def checkEdges(self):
-        if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
-            self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX,self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
+        if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX, self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
+            self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX, self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
         elif self.MapPosY > self.screenManager.width/4:
             self.MapPosY = int(self.screenManager.width/4)
 
@@ -135,7 +135,7 @@ class Game(object):
 
     def RDT(self):
         self.checkEdges()
-        TopLeft = self.IsoMathHelper.Screen2MapFIN((0,0), self.MapPos)
+        TopLeft = self.IsoMathHelper.Screen2MapFIN((0, 0), self.MapPos)
         TopRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.width, 0),
                                                     self.MapPos)
         BottomRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.height,
