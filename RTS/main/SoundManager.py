@@ -19,7 +19,7 @@ class SoundManager(object):
         '''
         Constructor
         '''
-        self.BackgroundMusic = ["../res/music/background/Gangi_-_22_-_Proton_Beat.wav"]
+        self.BackgroundMusic = ["RTS/res/music/background/Gangi_-_22_-_Proton_Beat.wav"]
         self.musicID = 0
         self.musicList = []
         self.IDnFilenameList = {}

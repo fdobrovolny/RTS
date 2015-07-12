@@ -3,6 +3,7 @@ Created on 5. 12. 2014
 
 @author: Filip Dobrovolny
 '''
+import os
 import numpy
 
 
@@ -41,6 +42,7 @@ class Map(object):
             self.src = src[:-4]
         else:
             self.src = src
+        self.MAP_FOLDER = "RTS/res/maps/"
         self.name = None
         self.author = None
         self.desc = None
@@ -74,7 +76,7 @@ class Map(object):
         self._logMapInfo()
 
     def writeMap(self):
-        f = open("../res/maps/" + self.src + ".map", "wb")
+        f = open(self.MAP_FOLDER + self.src + ".map", "wb")
 
         f.write(bytes([1]))  # start of heading
         for i in self.Header:
@@ -128,7 +130,12 @@ class Map(object):
         self.logger.log(1, self.loggerName, "Map saved.")
 
     def loadMap(self):
-        f = open("../res/maps/" + self.src + ".map", "rb")
+        path = self.MAP_FOLDER + self.src + ".map"
+        if not os.path.exists(path):
+            self.logger.log(3, self.loggerName, "File \"" + path + "\" was not found.")
+            return False, "Not found"
+
+        f = open(path, "rb")
         header = [1]
         for i in "ISO_Game_1.0":
             header.append(ord(i))
@@ -176,7 +183,7 @@ class Map(object):
         self._logMapInfo()
 
     def loadMapInfo(self):
-        f = open("../res/maps/" + self.src + ".map", "rb")
+        f = open("RTS/res/maps/" + self.src + ".map", "rb")
         header = [1]
         for i in "ISO_Game_1.0":
             header.append(ord(i))

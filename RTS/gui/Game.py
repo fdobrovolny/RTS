@@ -46,7 +46,7 @@ class Game(object):
         self.tiles = []
         self.loadTextures()
         self.screenManager.setBackgrounColor(self.screenManager.colors["Black"], 1.0)
-        self.MouseSelectedTexture = Texture("../res/map/select_tile.png")
+        self.MouseSelectedTexture = Texture("RTS/res/map/select_tile.png")
         self.MouseActive = True  # False when user is in GUI
         self.InGameMenuActive = False
 
@@ -120,7 +120,7 @@ class Game(object):
 
     def loadTextures(self):
         for TextureSrc in self.Map.textures:
-            self.tiles.append(Texture("../res/map/" + TextureSrc + ".png"))
+            self.tiles.append(Texture("RTS/res/map/" + TextureSrc + ".png"))
 
     def checkEdges(self):
         if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX, self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
