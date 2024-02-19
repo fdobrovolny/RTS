@@ -1,4 +1,4 @@
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -14,23 +14,22 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
 import pygame
-from pygame.locals import *
-from pygame.image import *
-from RTS.gui.GLTexture import Texture
+
 from RTS.gui.Button import Button
+from RTS.gui.GLTexture import Texture
 
 
 class InGameMenu(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self, main, screenManager, game, x, y):
-        '''
+        """
         Constructor
-        '''
+        """
         self.main = main
         self.screenManager = screenManager
         self.logger = self.main.logger
@@ -68,10 +67,10 @@ class InGameMenu(object):
         self.textRect.centerx = self.Rect.centerx
         self.textRect.y = 15
 
-        pygame.draw.rect(self.BaseSurface, self.screenManager.colors["Red"],
-                         self.Rect)
-        pygame.draw.rect(self.BaseSurface, self.screenManager.colors["Black"],
-                         self.Rect, 10)
+        pygame.draw.rect(self.BaseSurface, self.screenManager.colors["Red"], self.Rect)
+        pygame.draw.rect(
+            self.BaseSurface, self.screenManager.colors["Black"], self.Rect, 10
+        )
         self.BaseSurface.blit(self.textSurf, self.textRect)
 
         self.BaseTexture = Texture(None, self.BaseSurface, self.Rect)
@@ -107,46 +106,66 @@ class InGameMenu(object):
 
     def _initButtons(self):
         self.logger.log(0, "InGameMenu", "Executing _initButtons")
-        self.BackToGameButton = Button(self.main,
-                                       self.screenManager.display_surf,
-                                       self.screenManager.colors["Gray"],
-                                       self.screenManager.colors["Blue"],
-                                       self.screenManager.colors["Yellow"],
-                                       self.screenManager.colors["White"],
-                                       self.x+self.Rect.centerx-75,
-                                       self.y+60, 150, 80,
-                                       "Back to Game", 30,
-                                       self.BackToGame)
-        self.ButtonMainMenu = Button(self.main,
-                                     self.screenManager.display_surf,
-                                     self.screenManager.colors["Gray"],
-                                     self.screenManager.colors["Blue"],
-                                     self.screenManager.colors["Yellow"],
-                                     self.screenManager.colors["White"],
-                                     self.x+self.Rect.centerx-75,
-                                     self.y+150, 150, 80,
-                                     "Main Menu", 30,
-                                     self.MainMenu)
-        self.ButtonOptions = Button(self.main,
-                                    self.screenManager.display_surf,
-                                    self.screenManager.colors["Gray"],
-                                    self.screenManager.colors["Blue"],
-                                    self.screenManager.colors["Yellow"],
-                                    self.screenManager.colors["White"],
-                                    self.x+self.Rect.centerx-75,
-                                    self.y+240, 150, 80,
-                                    "Options", 30,
-                                    self.Options)
-        self.ButtonQuit = Button(self.main,
-                                 self.screenManager.display_surf,
-                                 self.screenManager.colors["Gray"],
-                                 self.screenManager.colors["Blue"],
-                                 self.screenManager.colors["Yellow"],
-                                 self.screenManager.colors["White"],
-                                 self.x+self.Rect.centerx-75,
-                                 self.y+330, 150, 80,
-                                 "Quit", 30,
-                                 self.Quit)
+        self.BackToGameButton = Button(
+            self.main,
+            self.screenManager.display_surf,
+            self.screenManager.colors["Gray"],
+            self.screenManager.colors["Blue"],
+            self.screenManager.colors["Yellow"],
+            self.screenManager.colors["White"],
+            self.x + self.Rect.centerx - 75,
+            self.y + 60,
+            150,
+            80,
+            "Back to Game",
+            30,
+            self.BackToGame,
+        )
+        self.ButtonMainMenu = Button(
+            self.main,
+            self.screenManager.display_surf,
+            self.screenManager.colors["Gray"],
+            self.screenManager.colors["Blue"],
+            self.screenManager.colors["Yellow"],
+            self.screenManager.colors["White"],
+            self.x + self.Rect.centerx - 75,
+            self.y + 150,
+            150,
+            80,
+            "Main Menu",
+            30,
+            self.MainMenu,
+        )
+        self.ButtonOptions = Button(
+            self.main,
+            self.screenManager.display_surf,
+            self.screenManager.colors["Gray"],
+            self.screenManager.colors["Blue"],
+            self.screenManager.colors["Yellow"],
+            self.screenManager.colors["White"],
+            self.x + self.Rect.centerx - 75,
+            self.y + 240,
+            150,
+            80,
+            "Options",
+            30,
+            self.Options,
+        )
+        self.ButtonQuit = Button(
+            self.main,
+            self.screenManager.display_surf,
+            self.screenManager.colors["Gray"],
+            self.screenManager.colors["Blue"],
+            self.screenManager.colors["Yellow"],
+            self.screenManager.colors["White"],
+            self.x + self.Rect.centerx - 75,
+            self.y + 330,
+            150,
+            80,
+            "Quit",
+            30,
+            self.Quit,
+        )
 
     def draw(self):
         self.BaseTexture.draw(self.x, self.y)

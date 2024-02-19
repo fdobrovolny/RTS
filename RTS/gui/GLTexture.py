@@ -1,4 +1,4 @@
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -14,10 +14,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
 import pygame
 from OpenGL.GL import *
-from OpenGL.GLU import *
 
 
 class Texture(object):
@@ -41,8 +40,17 @@ class Texture(object):
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
 
         # Create Image of Texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.rect.w, self.rect.h,
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, texdata)
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGBA,
+            self.rect.w,
+            self.rect.h,
+            0,
+            GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            texdata,
+        )
 
         self.newList = glGenLists(1)
         glNewList(self.newList, GL_COMPILE)

@@ -1,4 +1,4 @@
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -14,23 +14,38 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
 import pygame
 
 from RTS.gui.GLTexture import Texture
 
 
 class Button(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
-    def __init__(self, main, surface, in_color, bord_color,
-                 hover_color, text_color, x, y, sizeX, sizeY,
-                 text, textSize, onClick, border=5, onClickIdent=None):
-        '''
+    def __init__(
+        self,
+        main,
+        surface,
+        in_color,
+        bord_color,
+        hover_color,
+        text_color,
+        x,
+        y,
+        sizeX,
+        sizeY,
+        text,
+        textSize,
+        onClick,
+        border=5,
+        onClickIdent=None,
+    ):
+        """
         Constructor
-        '''
+        """
         self.main = main
         self.logger = self.main.logger
         self.surface = surface
@@ -62,30 +77,34 @@ class Button(object):
         self._genTextures()
         self._registerClick()
 
-        self.logger.log(1, "Button \"" + self.text + "\"",
-                        "Initialized.")
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "in_color: " + str(self.in_color))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "bord_color: " + str(self.bord_color))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "hover_color: " + str(self.hover_color))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "text_color: " + str(self.text_color))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "pos: " + str(self.pos))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "size: " + str(self.size))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "border: " + str(self.border))
-        self.logger.log(0, "Button \"" + self.text + "\"",
-                        "textSize: " + str(self.textSize))
+        self.logger.log(1, 'Button "' + self.text + '"', "Initialized.")
+        self.logger.log(
+            0, 'Button "' + self.text + '"', "in_color: " + str(self.in_color)
+        )
+        self.logger.log(
+            0, 'Button "' + self.text + '"', "bord_color: " + str(self.bord_color)
+        )
+        self.logger.log(
+            0, 'Button "' + self.text + '"', "hover_color: " + str(self.hover_color)
+        )
+        self.logger.log(
+            0, 'Button "' + self.text + '"', "text_color: " + str(self.text_color)
+        )
+        self.logger.log(0, 'Button "' + self.text + '"', "pos: " + str(self.pos))
+        self.logger.log(0, 'Button "' + self.text + '"', "size: " + str(self.size))
+        self.logger.log(0, 'Button "' + self.text + '"', "border: " + str(self.border))
+        self.logger.log(
+            0, 'Button "' + self.text + '"', "textSize: " + str(self.textSize)
+        )
 
     def _initRect(self):
         self.Rect = pygame.Rect(0, 0, self.sizeX, self.sizeY)
-        self.InRect = pygame.Rect(self.border, self.border, 
-                                  self.sizeX-self.border*2,
-                                  self.sizeY-self.border*2)
+        self.InRect = pygame.Rect(
+            self.border,
+            self.border,
+            self.sizeX - self.border * 2,
+            self.sizeY - self.border * 2,
+        )
 
     def _genTextures(self):
         self.BordSurf = pygame.Surface(self.size)
@@ -101,7 +120,7 @@ class Button(object):
 
         self.HoverTexture = Texture(None, self.HoverSurf, self.Rect)
         self.BoardTexture = Texture(None, self.BordSurf, self.Rect)
-        self.logger.log(1, "Button \"" + self.text + "\"", "Textures generated.")
+        self.logger.log(1, 'Button "' + self.text + '"', "Textures generated.")
 
     def _initText(self):
         self.font = pygame.font.Font(None, self.textSize)
@@ -117,7 +136,10 @@ class Button(object):
 
     def isHover(self):
         pos = pygame.mouse.get_pos()
-        if self.x < pos[0] < self.sizeX + self.x and self.y < pos[1] < self.sizeY + self.y:
+        if (
+            self.x < pos[0] < self.sizeX + self.x
+            and self.y < pos[1] < self.sizeY + self.y
+        ):
             return True
         return False
 
@@ -133,16 +155,15 @@ class Button(object):
 
     def stop(self):
         try:
-            del(self.HoverTexture)
+            del self.HoverTexture
         except:
             pass
         try:
-            del(self.BoardTexture)
+            del self.BoardTexture
         except:
             pass
         self.main.EventHandler.unregisterMOUSEBUTTONDOWNevent(1, self._onClick)
-        self.logger.log(1, "Button \"" + self.text + "\"",
-                        "Has been destroyed.")
+        self.logger.log(1, 'Button "' + self.text + '"', "Has been destroyed.")
 
     def __del__(self):
         self.stop()

@@ -1,4 +1,4 @@
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -14,13 +14,14 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
 import os
+
 import numpy
 
 
 class Map(object):
-    '''
+    """
     @author: Filip Dobrovolny
     @param src: Location of .map file
     @note: Load/Save/Edit Map
@@ -43,12 +44,12 @@ class Map(object):
         \1<version>\3<name>\3<author>\3<desc>\3\30{\2<texture>\3}\30 # header
         [len-x-1][len-x-2]\3[len-y-1][len-y-2]\3\30 # size
         \1{\2{[index]}\3}\30\25 # matrix
-    '''
+    """
 
     def __init__(self, src, logger):
-        '''
+        """
         Constructor
-        '''
+        """
         self.Header = "ISO_Game_1.0"
         if src[-4:] == ".map":
             self.src = src[:-4]
@@ -63,7 +64,7 @@ class Map(object):
         self.sizeY = None
         self.matrix = None
         self.logger = logger
-        self.loggerName = "Map \"" + self.src + ".map\""
+        self.loggerName = 'Map "' + self.src + '.map"'
 
         self.logger.log(1, self.loggerName, "Map initialized.")
 
@@ -82,8 +83,9 @@ class Map(object):
         self.textures = textures
         self.sizeX = sizeX
         self.sizeY = sizeY
-        self.matrix = numpy.array([[0 for _y in range(sizeY)] for _x in range(sizeX)],
-                                  dtype=numpy.int8)
+        self.matrix = numpy.array(
+            [[0 for _y in range(sizeY)] for _x in range(sizeX)], dtype=numpy.int8
+        )
         self.logger.log(1, self.loggerName, "New map created.")
         self._logMapInfo()
 
@@ -117,12 +119,12 @@ class Map(object):
 
         f.write(bytes([30]))  # EndOfRecordSeperator
 
-        size_x_bin = '{0:016b}'.format(self.sizeX)
+        size_x_bin = "{0:016b}".format(self.sizeX)
         f.write(bytes([int(size_x_bin[:8], 2)]))
         f.write(bytes([int(size_x_bin[8:], 2)]))
         f.write(bytes([3]))  # end of text
 
-        size_y_bin = '{0:016b}'.format(self.sizeY)
+        size_y_bin = "{0:016b}".format(self.sizeY)
         f.write(bytes([int(size_y_bin[:8], 2)]))
         f.write(bytes([int(size_y_bin[8:], 2)]))
         f.write(bytes([3]))  # end of text
@@ -144,7 +146,7 @@ class Map(object):
     def loadMap(self):
         path = self.MAP_FOLDER + self.src + ".map"
         if not os.path.exists(path):
-            self.logger.log(3, self.loggerName, "File \"" + path + "\" was not found.")
+            self.logger.log(3, self.loggerName, 'File "' + path + '" was not found.')
             return False, "Not found"
 
         f = open(path, "rb")

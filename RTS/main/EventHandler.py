@@ -1,6 +1,4 @@
-import pygame
-from pygame.locals import *
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -16,18 +14,20 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
+import pygame
+from pygame.locals import *
 
 
 class EventHandler(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self, main):
-        '''
+        """
         Constructor
-        '''
+        """
         self.main = main
         self.logger = self.main.logger
         self.userEvents = {}
@@ -54,10 +54,10 @@ class EventHandler(object):
 
             self.checkForEvent(event, KEYDOWN, self.KEYDOWN_event, True)
             self.checkForEvent(event, KEYUP, self.KEYUP_event, True)
-            self.checkForEvent(event, MOUSEBUTTONDOWN,
-                               self.MOUSEBUTTONDOWN_event, False)
-            self.checkForEvent(event, MOUSEBUTTONUP,
-                               self.MOUSEBUTTONUP_event, False)
+            self.checkForEvent(
+                event, MOUSEBUTTONDOWN, self.MOUSEBUTTONDOWN_event, False
+            )
+            self.checkForEvent(event, MOUSEBUTTONUP, self.MOUSEBUTTONUP_event, False)
 
             if event.type == KEYDOWN:
                 for i in self.KEYDOWN_listener:
@@ -71,13 +71,14 @@ class EventHandler(object):
                     for func in self.KEYPRESSED_event[i]:
                         func()
 
-    '''
+    """
     @author: Filip Dobrovolny
     @param event:  event from pygame.event.get() list
     @param checkEvent: for which event are we looking? MOUSEBUTTONUP, ...
     @param functions: dictationary in format {key : [func1, func2 ...]}
     @param key: True = event.key; False=event.button (index in functions)
-    '''
+    """
+
     def checkForEvent(self, event, checkEvent, functions, key):
         if event.type == checkEvent:
             try:
@@ -86,15 +87,16 @@ class EventHandler(object):
                 else:
                     functionsFIN = functions[event.button]
                 for i in functionsFIN:
-                        i()
+                    i()
             except:
                 pass
 
-    '''
+    """
     ** Register user - Event section
     UserEvent - Register UserEvent at EventHandler to call function when occur
     ####################################################################################
-    '''
+    """
+
     def registerUserEvent(self, function):
         self.userEventsNum += 1
         event = pygame.USEREVENT + self.userEventsNum
@@ -102,32 +104,43 @@ class EventHandler(object):
         return event
 
     def unregisterUserEvent(self, event):
-        del(self.userEvents[event])
+        del self.userEvents[event]
 
     def unregisterUserEventsAll(self):
         self.userEvents = {}
 
-    '''
+    """
     ** Register KEYDOWN - Event section
     KEYDOWN - event which occur when user press a key
     ####################################################################################
-    '''
+    """
+
     def registerKEYDOWNevent(self, key, function):
         try:
             temp = self.KEYDOWN_event[key]
             temp.append(function)
             self.KEYDOWN_event[key] = temp
-            self.logger.log(0, "EventHandler",
-                            "Added new binding to KEYDOWN for key "
-                            + str(key) + " function" + str(function))
+            self.logger.log(
+                0,
+                "EventHandler",
+                "Added new binding to KEYDOWN for key "
+                + str(key)
+                + " function"
+                + str(function),
+            )
         except:
             self.KEYDOWN_event[key] = [function]
-            self.logger.log(0, "EventHandler",
-                            "Added new binding to KEYDOWN for key "
-                            + str(key) + " function" + str(function))
+            self.logger.log(
+                0,
+                "EventHandler",
+                "Added new binding to KEYDOWN for key "
+                + str(key)
+                + " function"
+                + str(function),
+            )
 
     def unregisterKEYDOWNeventAll(self, key):
-        del(self.KEYDOWN_event[key])
+        del self.KEYDOWN_event[key]
 
     def unregisterKEYDOWNevent(self, key, function):
         try:
@@ -138,11 +151,12 @@ class EventHandler(object):
     def unregisterKEYDOWNeventAllKeys(self):
         self.KEYDOWN_event = {}
 
-    '''
+    """
     ** Register KEYUP - Event section
     KEYUP - event which occur when user release a key
     ####################################################################################
-    '''
+    """
+
     def registerKEYUPevent(self, key, function):
         try:
             temp = self.KEYUP_event[key]
@@ -152,7 +166,7 @@ class EventHandler(object):
             self.KEYUP_event[key] = [function]
 
     def unregisterKEYUPeventAll(self, key):
-        del(self.KEYUP_event[key])
+        del self.KEYUP_event[key]
 
     def unregisterKEYUPevent(self, key, function):
         try:
@@ -163,11 +177,12 @@ class EventHandler(object):
     def unregisterKEYUPeventAllKeys(self):
         self.KEYUP_event = {}
 
-    '''
+    """
     ** Register KEYPRESSED - section
     KEYPRESSED - this section takes care of buttons which were pressed before.
     ####################################################################################
-    '''
+    """
+
     def registerKEYPRESSEDevent(self, key, function):
         try:
             temp = self.KEYPRESSED_event[key]
@@ -177,7 +192,7 @@ class EventHandler(object):
             self.KEYPRESSED_event[key] = [function]
 
     def unregisterKEYPRESSEDeventAll(self, key):
-        del(self.KEYPRESSED_event[key])
+        del self.KEYPRESSED_event[key]
 
     def unregisterKEYPRESSEDevent(self, key, function):
         try:
@@ -188,48 +203,67 @@ class EventHandler(object):
     def unregisterKEYPRESSEDeventAllKeys(self):
         self.KEYPRESSED_event = {}
 
-    '''
+    """
     ** Register MOUSEBUTTONDOWN - event section
     MOUSEBUTTONDOWN - event which occur when user press one of the mouse buttons
     ####################################################################################
-    '''
+    """
+
     def registerMOUSEBUTTONDOWNevent(self, button, function):
         try:
             temp = self.MOUSEBUTTONDOWN_event[button]
             temp.append(function)
             self.MOUSEBUTTONDOWN_event[button] = temp
-            self.logger.log(0, "EventHandler",
-                            "Added new binding to MOUSEBUTTONDOWN for button"
-                            + str(button) + " function" + str(function))
+            self.logger.log(
+                0,
+                "EventHandler",
+                "Added new binding to MOUSEBUTTONDOWN for button"
+                + str(button)
+                + " function"
+                + str(function),
+            )
         except KeyError:
             self.MOUSEBUTTONDOWN_event[button] = [function]
-            self.logger.log(0, "EventHandler",
-                            "Creating new binding to MOUSEBUTTONDOWN for button"
-                            + str(button) + " function" + str(function))
+            self.logger.log(
+                0,
+                "EventHandler",
+                "Creating new binding to MOUSEBUTTONDOWN for button"
+                + str(button)
+                + " function"
+                + str(function),
+            )
 
     def unregisterMOUSEBUTTONDOWNeventAll(self, button):
-        del(self.MOUSEBUTTONDOWN_event[button])
-        self.logger.log(0, "EventHandler",
-                        "Removed all bindings to MOUSEBUTTONDOWN for button"
-                        + str(button))
+        del self.MOUSEBUTTONDOWN_event[button]
+        self.logger.log(
+            0,
+            "EventHandler",
+            "Removed all bindings to MOUSEBUTTONDOWN for button" + str(button),
+        )
 
     def unregisterMOUSEBUTTONDOWNevent(self, button, function):
         try:
             self.MOUSEBUTTONDOWN_event[button].remove(function)
-            self.logger.log(0, "EventHandler",
-                            "Removed binding to MOUSEBUTTONDOWN for button"
-                            + str(button) + " function" + str(function))
+            self.logger.log(
+                0,
+                "EventHandler",
+                "Removed binding to MOUSEBUTTONDOWN for button"
+                + str(button)
+                + " function"
+                + str(function),
+            )
         except:
             pass
 
     def unregisterMOUSEBUTTONDOWNeventAllKEys(self):
         self.MOUSEBUTTONDOWN_event = {}
 
-    '''
+    """
     ** Register MOUSEBUTTOUP - event section
     MOUSEBUTTONUP - event which occur when user release one of the mouse buttons
     ####################################################################################
-    '''
+    """
+
     def registerMOUSEBUTTONUPevent(self, button, function):
         try:
             temp = self.MOUSEBUTTONUP_event[button]
@@ -239,7 +273,7 @@ class EventHandler(object):
             self.MOUSEBUTTONUP_event[button] = [function]
 
     def unregisterMOUSEBUTTONUPeventAll(self, button):
-        del(self.MOUSEBUTTONUP_event[button])
+        del self.MOUSEBUTTONUP_event[button]
 
     def unregisterMOUSEBUTTONUPevent(self, button, function):
         try:
@@ -250,11 +284,12 @@ class EventHandler(object):
     def unregisterMOUSEBUTTONUPeventAllKEys(self):
         self.MOUSEBUTTONUP_event = {}
 
-    '''
+    """
     ** Register keydown listener - listener section
     keydown listener - Listener function which is called when user press a key
     ####################################################################################
-    '''
+    """
+
     def registerKEYDOWNlistener(self, function):
         self.KEYDOWN_listener.append(function)
 

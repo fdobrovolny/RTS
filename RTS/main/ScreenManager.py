@@ -1,16 +1,4 @@
-import os
-import sys
-import pygame
-from pygame.locals import *
-from pygame.image import *
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-
-from RTS.gui.MainMenu import MainMenu
-from RTS.gui.Game import Game
-from RTS.gui.SelectMap import SelectMap
-
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -26,13 +14,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
+
+import pygame
+from OpenGL.GL import *
+from pygame.locals import *
+
+from RTS.gui.Game import Game
+from RTS.gui.MainMenu import MainMenu
+from RTS.gui.SelectMap import SelectMap
 
 
 class ScreenManager(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self, main, width, height, maxFPS):
         self.main = main
@@ -62,8 +58,9 @@ class ScreenManager(object):
     def _PygameInit(self):
         pygame.init()
         self.display_surf = pygame.display.set_mode(self.size, self.flags)
-        pygame.display.set_caption('Bellum ' + self.main.gameDevelopmentState
-                                   + " " + self.main.version)
+        pygame.display.set_caption(
+            "Bellum " + self.main.gameDevelopmentState + " " + self.main.version
+        )
         self.logger.log(1, "ScreenManager", "Pygame initialized.")
 
     def _OpenGLInit(self):
@@ -85,7 +82,7 @@ class ScreenManager(object):
 
     def SetupColors(self):
         self.colors["Aqua"] = (0, 255, 255)
-        self.colors["Black"] = (0,  0,  0)
+        self.colors["Black"] = (0, 0, 0)
         self.colors["Blue"] = (0, 0, 255)
         self.colors["Fuchsia"] = (255, 0, 255)
         self.colors["Gray"] = (128, 128, 128)
@@ -102,8 +99,12 @@ class ScreenManager(object):
         self.colors["Yellow"] = (255, 255, 0)
 
     def clearScreen(self):
-        glClearColor(self.backgroundColorR, self.backgroundColorG,
-                     self.backgroundColorB, self.backgroundColorA)
+        glClearColor(
+            self.backgroundColorR,
+            self.backgroundColorG,
+            self.backgroundColorB,
+            self.backgroundColorA,
+        )
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
     def UpdateDisplay(self):
@@ -119,14 +120,14 @@ class ScreenManager(object):
         self.logger.log(1, "ScreenManager", "Opening MainMenu")
         if self.screen is not None:
             self.screen.stop()
-        del(self.screen)
+        del self.screen
         self.screen = MainMenu(self.main, self)
 
     def OpenGame(self, map="base"):
         self.logger.log(1, "ScreenManager", "Opening Game")
         if self.screen is not None:
             self.screen.stop()
-        del(self.screen)
+        del self.screen
         self.screen = Game(self.main, self, 64, 128, map)
         self.logger.log(1, "ScreenManager", "Game Opened")
 
@@ -135,7 +136,7 @@ class ScreenManager(object):
             nextScreen = self.OpenGame
         if self.screen is not None:
             self.screen.stop()
-        del(self.screen)
+        del self.screen
         self.screen = SelectMap(self.main, self, nextScreen)
 
     def draw(self):

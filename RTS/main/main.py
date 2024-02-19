@@ -1,9 +1,4 @@
-import pygame, sys, datetime
-from RTS.main.ScreenManager import ScreenManager
-from RTS.main.SoundManager import SoundManager
-from RTS.main.EventHandler import EventHandler
-from RTS.main.Logger import Logger
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -19,7 +14,17 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
+
+import datetime
+import sys
+
+import pygame
+
+from RTS.main.EventHandler import EventHandler
+from RTS.main.Logger import Logger
+from RTS.main.ScreenManager import ScreenManager
+from RTS.main.SoundManager import SoundManager
 
 
 class main(object):
@@ -27,8 +32,11 @@ class main(object):
         self.logger = Logger(True)
         self.version = "0.0.2"
         self.gameDevelopmentState = "Pre-Alpha"
-        self.logger.log(1, "MAIN", "Starting Bellum version "
-                        + self.gameDevelopmentState + " " + self.version)
+        self.logger.log(
+            1,
+            "MAIN",
+            "Starting Bellum version " + self.gameDevelopmentState + " " + self.version,
+        )
         self.logger.log(1, "MAIN", "Today is " + str(datetime.datetime.today()))
 
         self.EventHandler = EventHandler(self)
@@ -46,12 +54,14 @@ class main(object):
             self.ScreenManager.draw()
             self.ScreenManager.UpdateDisplay()
 
-    ''' this func is called when app is closing'''
+    """ this func is called when app is closing"""
+
     def quit(self):
         self.loop = False
         self.logger.log(1, "MAIN", "Quitting...")
         pygame.quit()
         sys.exit()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     pass

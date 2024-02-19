@@ -1,6 +1,4 @@
-from random import choice
-import pygame
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -17,22 +15,26 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-@todo: FIX background music and test normal music
 Background Music copyright:
 Gangi_-_22_-_Proton_Beat.mp3 -
 http://freemusicarchive.org/music/Gangi/Bonus_Beat_Blast_2011/22_gangi-proton_beat
-'''
+
+@todo: FIX background music and test normal music
+"""
+from random import choice
+
+import pygame
 
 
 class SoundManager(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self, main, startBackground=True):
-        '''
+        """
         Constructor
-        '''
+        """
         self.BackgroundMusic = ["RTS/res/music/background/Gangi_-_22_-_Proton_Beat.wav"]
         self.musicID = 0
         self.musicList = []
@@ -41,12 +43,13 @@ class SoundManager(object):
         self.main = main
         self.logger = self.main.logger
 
-        self.SONG_END_event = self.main.EventHandler.registerUserEvent(self.PlayBackgroundMusic)
+        self.SONG_END_event = self.main.EventHandler.registerUserEvent(
+            self.PlayBackgroundMusic
+        )
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.set_endevent(self.SONG_END_event)
         self.logger.log(1, "SoundManager", "Initialized.")
-        self.logger.log(0, "SoundManager", "Start Background: "
-                        + str(startBackground))
+        self.logger.log(0, "SoundManager", "Start Background: " + str(startBackground))
         if startBackground:
             self.PlayBackgroundMusic()
 
@@ -63,8 +66,14 @@ class SoundManager(object):
             self.musicList.append(pygame.mixer.Sound(filename))
             self.IDnFilenameList[filename] = self.musicID
             self.musicID += 1
-            self.logger.log(1, "SoundManager", "Registered and loaded new sound. "
-                            + str(filename) + " ID: " + str(self.musicID - 1))
+            self.logger.log(
+                1,
+                "SoundManager",
+                "Registered and loaded new sound. "
+                + str(filename)
+                + " ID: "
+                + str(self.musicID - 1),
+            )
             return self.musicID - 1
 
     def PlaySound(self, musicID):

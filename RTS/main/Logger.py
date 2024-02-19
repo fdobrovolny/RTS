@@ -1,5 +1,4 @@
-import datetime
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -15,31 +14,31 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
+import datetime
 
 
 class Logger(object):
-    '''
+    """
     classdocs
-    '''
+    """
 
     def __init__(self, print2Console=False, logfile=None):
-        '''
+        """
         Constructor
-        '''
+        """
         if logfile is None:
-            self.logfile = "../logs/"+str(datetime.date.today())
+            self.logfile = "../logs/" + str(datetime.date.today())
         else:
             self.logfile = logfile
         self.print2Console = print2Console
-        self.levels = {0: "DEBUG:",
-                       1: "INFO",
-                       2: "WARN",
-                       3: "ERROR"
-                       }
+        self.levels = {0: "DEBUG:", 1: "INFO", 2: "WARN", 3: "ERROR"}
 
     def log(self, level, name, message):
         if self.print2Console:
-            print(str(datetime.datetime.now().time()),
-                  self.levels[level],
-                  name + ":", message)
+            print(
+                str(datetime.datetime.now().time()),
+                self.levels[level],
+                name + ":",
+                message,
+            )

@@ -1,4 +1,4 @@
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2015 Filip Dobrovolny
 
@@ -14,21 +14,35 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
 
 
 class InputField(object):
-    '''
+    """
     classdocs
     @todo: Complete
-    '''
+    """
 
-    def __init__(self, main, surface, in_color, bord_color, text_color, x, y,
-                 sizeX, sizeY, defaultText, textSize, border=5, maxLen=100,
-                 restrictedKeys=None):
-        '''
+    def __init__(
+        self,
+        main,
+        surface,
+        in_color,
+        bord_color,
+        text_color,
+        x,
+        y,
+        sizeX,
+        sizeY,
+        defaultText,
+        textSize,
+        border=5,
+        maxLen=100,
+        restrictedKeys=None,
+    ):
+        """
         Constructor
-        '''
+        """
         self.main = main
         self.logger = self.main.logger
         self.surface = surface

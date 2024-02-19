@@ -1,12 +1,4 @@
-import pygame
-from pygame.locals import *
-from pygame.image import *
-
-from RTS.main.isoMath import IsoMathHelper
-from RTS.main.MapLoader import Map
-from RTS.gui.GLTexture import Texture
-from RTS.gui.InGameMenu import InGameMenu
-'''
+"""
 RTS - RealTime Isometric pygame-opengl based game.
 Copyright (C) 2014 Filip Dobrovolny
 
@@ -22,18 +14,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-'''
+"""
+import pygame
+from pygame.locals import *
+
+from RTS.gui.GLTexture import Texture
+from RTS.gui.InGameMenu import InGameMenu
+from RTS.main.isoMath import IsoMathHelper
+from RTS.main.MapLoader import Map
 
 
 class Game(object):
-    '''
+    """
     This class takes care of drawing map units buldings etc.
-    '''
+    """
 
     def __init__(self, main, ScreenManager, tileSizeX, tileSizeY, map="base"):
-        '''
+        """
         Constructor
-        '''
+        """
         self.main = main
         self.screenManager = ScreenManager
         self.logger = self.main.logger
@@ -47,7 +46,9 @@ class Game(object):
         self.MapMovConst = 10
         self.RegisterMapMovement()
 
-        self.RecalculateDisplayTiles = True  # determine if we have to recalculate which tiles should be shown
+        self.RecalculateDisplayTiles = (
+            True  # determine if we have to recalculate which tiles should be shown
+        )
         self.RDT_X_S = None
         self.RDT_X_E = None
         self.RDT_Y_S = None
@@ -65,13 +66,18 @@ class Game(object):
         self.main.EventHandler.registerKEYDOWNevent(K_ESCAPE, self.KEYDOWNesc)
         self.logger.log(1, "Game", "Initialized.")
         self.logger.log(1, "Game", "Initializing InGameMenu...")
-        self.InGameMenu = InGameMenu(self.main, self.screenManager, self,
-                                     self.screenManager.size[0]/2-100,
-                                     self.screenManager.size[1]/2-215)
+        self.InGameMenu = InGameMenu(
+            self.main,
+            self.screenManager,
+            self,
+            self.screenManager.size[0] / 2 - 100,
+            self.screenManager.size[1] / 2 - 215,
+        )
 
     def _IsoMathHelperInit(self):
-        self.IsoMathHelper = IsoMathHelper(self.tileSizeY/2, self.tileSizeX/2,
-                                           self.screenManager.width/2)
+        self.IsoMathHelper = IsoMathHelper(
+            self.tileSizeY / 2, self.tileSizeX / 2, self.screenManager.width / 2
+        )
 
     def draw(self):
         if self.RecalculateDisplayTiles:
@@ -79,17 +85,21 @@ class Game(object):
         for x in range(self.RDT_X_S, self.RDT_X_E):
             for y in range(self.RDT_Y_S, self.RDT_Y_E):
                 tile = self.Map.matrix[y][x]
-                tile_x, tile_y = self.IsoMathHelper.Map2ScreenFIN((x, y),
-                                                                  self.MapPos)
+                tile_x, tile_y = self.IsoMathHelper.Map2ScreenFIN((x, y), self.MapPos)
                 self.tiles[tile].draw(tile_x, tile_y)
 
-        mouseCoord = self.IsoMathHelper.Screen2MapFIN(pygame.mouse.get_pos(),
-                                                      self.MapPos)
+        mouseCoord = self.IsoMathHelper.Screen2MapFIN(
+            pygame.mouse.get_pos(), self.MapPos
+        )
 
-        if -1 < mouseCoord[0] <= self.Map.sizeX and -1 < mouseCoord[1] <= self.Map.sizeY and self.MouseActive:
-            select_x, select_y = self.IsoMathHelper.Map2ScreenFIN((int(mouseCoord[0]),
-                                                                   int(mouseCoord[1])),
-                                                                  self.MapPos)
+        if (
+            -1 < mouseCoord[0] <= self.Map.sizeX
+            and -1 < mouseCoord[1] <= self.Map.sizeY
+            and self.MouseActive
+        ):
+            select_x, select_y = self.IsoMathHelper.Map2ScreenFIN(
+                (int(mouseCoord[0]), int(mouseCoord[1])), self.MapPos
+            )
             self.MouseSelectedTexture.draw(select_x, select_y)
         if self.InGameMenuActive:
             self.InGameMenu.draw()
@@ -135,26 +145,79 @@ class Game(object):
             self.tiles.append(Texture("RTS/res/map/" + TextureSrc + ".png"))
 
     def checkEdges(self):
-        if self.MapPosY < -self.IsoMathHelper.Map2Screen((self.Map.sizeX, self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]:
-            self.MapPosY = -self.IsoMathHelper.Map2Screen((self.Map.sizeX, self.Map.sizeY-(self.screenManager.width*1.5)/self.tileSizeY))[1]
-        elif self.MapPosY > self.screenManager.width/4:
-            self.MapPosY = int(self.screenManager.width/4)
+        if (
+            self.MapPosY
+            < -self.IsoMathHelper.Map2Screen(
+                (
+                    self.Map.sizeX,
+                    self.Map.sizeY - (self.screenManager.width * 1.5) / self.tileSizeY,
+                )
+            )[1]
+        ):
+            self.MapPosY = -self.IsoMathHelper.Map2Screen(
+                (
+                    self.Map.sizeX,
+                    self.Map.sizeY - (self.screenManager.width * 1.5) / self.tileSizeY,
+                )
+            )[1]
+        elif self.MapPosY > self.screenManager.width / 4:
+            self.MapPosY = int(self.screenManager.width / 4)
 
-        if self.MapPosX > self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX), self.Map.sizeY))[1]:
-            self.MapPosX = self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX), self.Map.sizeY))[1]
-        elif self.MapPosX < -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX), self.Map.sizeY))[1]:
-            self.MapPosX = -self.IsoMathHelper.Map2Screen((int(self.Map.sizeX+(self.screenManager.height*0.25)/self.tileSizeX), self.Map.sizeY))[1]
+        if (
+            self.MapPosX
+            > self.IsoMathHelper.Map2Screen(
+                (
+                    int(
+                        self.Map.sizeX
+                        + (self.screenManager.height * 0.25) / self.tileSizeX
+                    ),
+                    self.Map.sizeY,
+                )
+            )[1]
+        ):
+            self.MapPosX = self.IsoMathHelper.Map2Screen(
+                (
+                    int(
+                        self.Map.sizeX
+                        + (self.screenManager.height * 0.25) / self.tileSizeX
+                    ),
+                    self.Map.sizeY,
+                )
+            )[1]
+        elif (
+            self.MapPosX
+            < -self.IsoMathHelper.Map2Screen(
+                (
+                    int(
+                        self.Map.sizeX
+                        + (self.screenManager.height * 0.25) / self.tileSizeX
+                    ),
+                    self.Map.sizeY,
+                )
+            )[1]
+        ):
+            self.MapPosX = -self.IsoMathHelper.Map2Screen(
+                (
+                    int(
+                        self.Map.sizeX
+                        + (self.screenManager.height * 0.25) / self.tileSizeX
+                    ),
+                    self.Map.sizeY,
+                )
+            )[1]
 
     def RDT(self):
         self.checkEdges()
         TopLeft = self.IsoMathHelper.Screen2MapFIN((0, 0), self.MapPos)
-        TopRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.width, 0),
-                                                    self.MapPos)
-        BottomRight = self.IsoMathHelper.Screen2MapFIN((self.screenManager.height,
-                                                        self.screenManager.width),
-                                                       self.MapPos)
-        BottomLeft = self.IsoMathHelper.Screen2MapFIN((0, self.screenManager.height),
-                                                      self.MapPos)
+        TopRight = self.IsoMathHelper.Screen2MapFIN(
+            (self.screenManager.width, 0), self.MapPos
+        )
+        BottomRight = self.IsoMathHelper.Screen2MapFIN(
+            (self.screenManager.height, self.screenManager.width), self.MapPos
+        )
+        BottomLeft = self.IsoMathHelper.Screen2MapFIN(
+            (0, self.screenManager.height), self.MapPos
+        )
 
         self.RDT_X_S = int(TopLeft[0]) - 2
         self.RDT_X_E = int(BottomRight[0]) + 2
