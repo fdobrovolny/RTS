@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import os
 
-from RTS.gui.Button import Button
+from RTS.gui.button import Button
 from RTS.gui.GLTexture import Text
 from RTS.main.MapLoader import Map
 
@@ -71,7 +71,6 @@ class SelectMap(object):
             self.buttons.append(
                 Button(
                     self.main,
-                    self.display_surf,
                     self.colors["Gray"],
                     self.colors["Blue"],
                     self.colors["Yellow"],
@@ -82,7 +81,7 @@ class SelectMap(object):
                     80,
                     MapEntry.name,
                     60,
-                    self.onClick,
+                    self._onClick,
                     MapEntry,
                 )
             )

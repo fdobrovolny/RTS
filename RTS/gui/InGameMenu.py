@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import pygame
 
-from RTS.gui.Button import Button
+from RTS.gui.button import Button
 from RTS.gui.GLTexture import Texture
 
 
@@ -108,7 +108,6 @@ class InGameMenu(object):
         self.logger.log(0, "InGameMenu", "Executing _initButtons")
         self.BackToGameButton = Button(
             self.main,
-            self.screenManager.display_surf,
             self.screenManager.colors["Gray"],
             self.screenManager.colors["Blue"],
             self.screenManager.colors["Yellow"],
@@ -123,7 +122,6 @@ class InGameMenu(object):
         )
         self.ButtonMainMenu = Button(
             self.main,
-            self.screenManager.display_surf,
             self.screenManager.colors["Gray"],
             self.screenManager.colors["Blue"],
             self.screenManager.colors["Yellow"],
@@ -138,7 +136,6 @@ class InGameMenu(object):
         )
         self.ButtonOptions = Button(
             self.main,
-            self.screenManager.display_surf,
             self.screenManager.colors["Gray"],
             self.screenManager.colors["Blue"],
             self.screenManager.colors["Yellow"],
@@ -153,7 +150,6 @@ class InGameMenu(object):
         )
         self.ButtonQuit = Button(
             self.main,
-            self.screenManager.display_surf,
             self.screenManager.colors["Gray"],
             self.screenManager.colors["Blue"],
             self.screenManager.colors["Yellow"],

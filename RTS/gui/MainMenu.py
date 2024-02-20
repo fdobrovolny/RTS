@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from RTS.gui.Button import Button
+from RTS.gui.button import Button
 from RTS.gui.GLTexture import Text
 
 
@@ -58,7 +58,6 @@ class MainMenu(object):
     def _setupMainMenu(self):
         self.SinglePlayerButton = Button(
             self.main,
-            self.display_surf,
             self.colors["Gray"],
             self.colors["Blue"],
             self.colors["Yellow"],
@@ -73,7 +72,6 @@ class MainMenu(object):
         )
         self.LevelEditorButton = Button(
             self.main,
-            self.display_surf,
             self.colors["Gray"],
             self.colors["Blue"],
             self.colors["Yellow"],
@@ -88,7 +86,6 @@ class MainMenu(object):
         )
         self.OptionsButton = Button(
             self.main,
-            self.display_surf,
             self.colors["Gray"],
             self.colors["Blue"],
             self.colors["Yellow"],
@@ -103,7 +100,6 @@ class MainMenu(object):
         )
         self.QuitButton = Button(
             self.main,
-            self.display_surf,
             self.colors["Gray"],
             self.colors["Blue"],
             self.colors["Yellow"],
